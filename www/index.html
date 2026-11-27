@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mahajan ENT Clinic — Canvas Reports & OPD</title>
+  <title>Mahajan ENT Clinic — Reports & OPD</title>
   <style>
     :root {
       --bg: #070b14;
-      --bg-grid: rgba(56, 189, 248, 0.06);
-      --surface: rgba(15, 23, 42, 0.88);
-      --surface-2: rgba(30, 41, 59, 0.78);
-      --border: rgba(148, 163, 184, 0.18);
+      --grid: rgba(56, 189, 248, 0.06);
+      --surface: rgba(15, 23, 42, 0.9);
+      --surface2: rgba(30, 41, 59, 0.8);
+      --border: rgba(148, 163, 184, 0.2);
       --text: #f8fafc;
       --muted: #94a3b8;
       --cyan: #22d3ee;
@@ -22,640 +22,461 @@
     }
     * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
     body {
-      margin: 0;
-      color: var(--text);
-      background-color: var(--bg);
+      margin: 0; color: var(--text); background-color: var(--bg);
       background-image:
         radial-gradient(circle at 12% 10%, rgba(34, 211, 238, 0.16), transparent 36%),
         radial-gradient(circle at 88% 14%, rgba(192, 132, 252, 0.16), transparent 38%),
-        radial-gradient(circle at 50% 92%, rgba(52, 211, 153, 0.12), transparent 42%),
-        linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px, 28px 28px;
-      padding-bottom: 84px;
-      min-height: 100vh;
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 26px 26px, 26px 26px;
+      padding-bottom: 84px; min-height: 100vh;
     }
     header {
-      position: sticky; top: 0; z-index: 30;
-      backdrop-filter: blur(14px);
-      background: rgba(9, 14, 26, 0.82);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      position: sticky; top: 0; z-index: 30; backdrop-filter: blur(14px);
+      background: rgba(9, 14, 26, 0.86); border-bottom: 1px solid var(--border);
+      padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;
     }
-    .brand-title {
-      margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.2px;
-      background: linear-gradient(90deg, var(--cyan), var(--purple), var(--emerald));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .brand-sub { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
-    .icon-btn {
-      background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
-      border-radius: 10px; padding: 8px 10px; font-size: 14px; cursor: pointer;
-    }
-    .container { max-width: 960px; margin: 14px auto; padding: 0 12px; }
-    .canvas-card {
-      background: var(--surface);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 14px;
-      margin-bottom: 14px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-    .section-head {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
-      margin-bottom: 10px;
-    }
-    .section-title { margin: 0; font-size: 15px; font-weight: 700; color: var(--text); }
-    .pill {
-      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
-      background: rgba(34, 211, 238, 0.14); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.3);
-    }
-    .kpi-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-    }
-    @media (max-width: 640px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-    .kpi {
-      border-radius: 14px; padding: 12px; position: relative; overflow: hidden;
-      background: var(--surface-2); border: 1px solid var(--border);
-    }
-    .kpi::before {
-      content: ''; position: absolute; inset: 0 0 auto 0; height: 3px;
-    }
-    .kpi.cyan::before { background: linear-gradient(90deg, var(--cyan), #3b82f6); }
-    .kpi.emerald::before { background: linear-gradient(90deg, var(--emerald), #10b981); }
-    .kpi.purple::before { background: linear-gradient(90deg, var(--purple), #ec4899); }
-    .kpi.amber::before { background: linear-gradient(90deg, var(--amber), #f97316); }
-    .kpi.rose::before { background: linear-gradient(90deg, var(--rose), #e11d48); }
-    .kpi.indigo::before { background: linear-gradient(90deg, var(--indigo), var(--cyan)); }
-    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; }
-    .kpi-val { font-size: 18px; font-weight: 800; margin-top: 5px; }
-    .kpi.cyan .kpi-val { color: var(--cyan); }
-    .kpi.emerald .kpi-val { color: var(--emerald); }
-    .kpi.purple .kpi-val { color: var(--purple); }
-    .kpi.amber .kpi-val { color: var(--amber); }
-    .kpi.rose .kpi-val { color: var(--rose); }
-    .kpi.indigo .kpi-val { color: var(--indigo); }
-
-    canvas.chart-box {
-      width: 100%; height: 190px; display: block; border-radius: 12px;
-      background: rgba(2, 6, 23, 0.65); border: 1px solid var(--border);
-    }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
-    input, select, textarea {
-      width: 100%; padding: 9px 11px; border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      background: rgba(2, 6, 23, 0.72); color: var(--text); font-size: 14px;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none; border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
-    }
-    textarea { min-height: 64px; resize: vertical; }
-    .btn {
-      border: none; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700;
-      cursor: pointer; color: #050811;
-      background: linear-gradient(135deg, var(--cyan), var(--emerald));
-    }
-    .btn.secondary {
-      background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
-    }
-    .btn.purple {
-      background: linear-gradient(135deg, var(--purple), var(--indigo)); color: #fff;
-    }
-    .btn.amber {
-      background: linear-gradient(135deg, var(--amber), #f97316); color: #090d16;
-    }
+    .brand { margin: 0; font-size: 17px; font-weight: 800; background: linear-gradient(90deg, var(--cyan), var(--purple), var(--emerald)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sub { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
+    .container { max-width: 960px; margin: 12px auto; padding: 0 10px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 13px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+    .head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .title { margin: 0; font-size: 15px; font-weight: 700; }
+    .pill { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: rgba(34,211,238,0.14); color: var(--cyan); border: 1px solid rgba(34,211,238,0.3); }
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    @media (max-width: 600px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    .kpi { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px; position: relative; overflow: hidden; }
+    .kpi::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; }
+    .kpi.cyan::before { background: var(--cyan); }
+    .kpi.emerald::before { background: var(--emerald); }
+    .kpi.purple::before { background: var(--purple); }
+    .kpi.amber::before { background: var(--amber); }
+    .kpi.rose::before { background: var(--rose); }
+    .kpi.indigo::before { background: var(--indigo); }
+    .kpi-l { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .kpi-v { font-size: 17px; font-weight: 800; margin-top: 4px; }
+    .kpi.cyan .kpi-v { color: var(--cyan); }
+    .kpi.emerald .kpi-v { color: var(--emerald); }
+    .kpi.purple .kpi-v { color: var(--purple); }
+    .kpi.amber .kpi-v { color: var(--amber); }
+    .kpi.rose .kpi-v { color: var(--rose); }
+    .kpi.indigo .kpi-v { color: var(--indigo); }
+    label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 600; }
+    input, select, textarea { width: 100%; padding: 8px 10px; border-radius: 9px; border: 1px solid rgba(148,163,184,0.25); background: rgba(2,6,23,0.75); color: var(--text); font-size: 13px; }
+    textarea { min-height: 58px; resize: vertical; }
+    .btn { border: none; border-radius: 9px; padding: 8px 12px; font-size: 13px; font-weight: 700; cursor: pointer; color: #050811; background: linear-gradient(135deg, var(--cyan), var(--emerald)); }
+    .btn.sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn.pur { background: linear-gradient(135deg, var(--purple), var(--indigo)); color: #fff; }
     .btn.sm { padding: 6px 10px; font-size: 12px; }
-    .med-card {
-      background: rgba(2, 6, 23, 0.6); border: 1px solid var(--border);
-      border-radius: 12px; padding: 9px; margin-bottom: 8px;
-    }
-    .med-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr auto; gap: 6px; align-items: center; }
-    @media (max-width: 640px) { .med-grid { grid-template-columns: 1fr 1fr; } }
     .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .item-row {
-      padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px;
-    }
-    .item-row:last-child { border-bottom: none; }
-    .badge {
-      display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
-    }
-    .badge-ok { background: rgba(52, 211, 153, 0.16); color: var(--emerald); }
-    .badge-due { background: rgba(251, 191, 36, 0.18); color: var(--amber); }
+    .med-card { background: rgba(2,6,23,0.65); border: 1px solid var(--border); border-radius: 10px; padding: 8px; margin-bottom: 8px; }
+    .med-grid { display: grid; grid-template-columns: 1.8fr 0.9fr 1.1fr 1.2fr auto; gap: 6px; align-items: center; }
+    @media (max-width: 640px) { .med-grid { grid-template-columns: 1fr 1fr; } }
+    .pay-box { background: rgba(2,6,23,0.55); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-top: 8px; }
+    .item { padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .item:last-child { border-bottom: none; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); }
-    th { color: var(--cyan); font-weight: 700; background: rgba(2, 6, 23, 0.55); }
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
-      backdrop-filter: blur(14px); background: rgba(9, 14, 26, 0.9);
-      border-top: 1px solid var(--border);
-      display: grid; grid-template-columns: repeat(3, 1fr); padding: 6px 8px; gap: 6px;
-    }
-    .nav-btn {
-      background: transparent; color: var(--muted); border: 1px solid transparent;
-      border-radius: 12px; padding: 7px 6px; font-size: 12px; font-weight: 700; cursor: pointer;
-    }
-    .nav-btn.active {
-      color: var(--text); background: rgba(34, 211, 238, 0.14);
-      border-color: rgba(34, 211, 238, 0.35);
-    }
+    th, td { text-align: left; padding: 7px 5px; border-bottom: 1px solid var(--border); }
+    th { color: var(--cyan); background: rgba(2,6,23,0.6); }
+    canvas.chart { width: 100%; height: 170px; display: block; border-radius: 10px; background: rgba(2,6,23,0.65); border: 1px solid var(--border); }
+    .nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; backdrop-filter: blur(14px); background: rgba(9,14,26,0.94); border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); padding: 6px; gap: 4px; }
+    .nav-btn { background: transparent; color: var(--muted); border: 1px solid transparent; border-radius: 10px; padding: 7px 4px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .nav-btn.active { color: var(--text); background: rgba(34,211,238,0.15); border-color: rgba(34,211,238,0.35); }
     .hidden { display: none; }
-    .toast {
-      position: fixed; bottom: 78px; left: 50%; transform: translateX(-50%);
-      background: #0f172a; color: var(--cyan); border: 1px solid var(--cyan);
-      padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 700;
-      z-index: 60; display: none; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    }
+    .toast { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); background: #0f172a; color: var(--cyan); border: 1px solid var(--cyan); padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; z-index: 60; display: none; }
   </style>
 </head>
 <body>
   <header>
     <div>
-      <h1 class="brand-title">Mahajan ENT Clinic</h1>
-      <p class="brand-sub">Vibrant Canvas • Daily Reports, OPD & Stock Valuation</p>
+      <h1 class="brand">Mahajan ENT Clinic</h1>
+      <p class="sub">Daily Report • OPD • Monthly • Stock Profit</p>
     </div>
-    <div class="row">
-      <button class="icon-btn" onclick="refreshAll()" title="Refresh">↻</button>
-      <button class="icon-btn" onclick="toggleConfig()" title="Backend URL">⚙️</button>
-    </div>
+    <button class="btn sm sec" onclick="refreshAll()">↻ Refresh</button>
   </header>
 
   <div class="container">
-    <div class="canvas-card hidden" id="configCard">
-      <div class="section-head">
-        <h3 class="section-title">Apps Script Web App URL</h3>
-        <span class="pill">Live Connected</span>
-      </div>
-      <div class="row">
-        <input type="url" id="scriptUrlInput" style="flex:1;" />
-        <button class="btn sm" onclick="saveScriptUrl()">Save</button>
-      </div>
-    </div>
-
-    <!-- TAB 1: DAILY REPORT & OPD -->
+    <!-- TAB 1: DAILY & OPD -->
     <section id="tab-daily">
-      <div class="canvas-card">
-        <div class="row" style="justify-content:space-between; margin-bottom:12px;">
-          <div style="flex:1; min-width:170px;">
-            <label>तारीख चुनें (Date Report)</label>
+      <div class="card">
+        <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+          <div style="flex:1; min-width:150px;">
+            <label>तारीख चुनें (Daily Report)</label>
             <input type="date" id="reportDate" onchange="loadDashboard()" />
           </div>
-          <div class="row" style="padding-top:16px;">
-            <button class="btn sm secondary" onclick="setToday(); loadDashboard();">आज</button>
+          <div class="row" style="padding-top:14px;">
+            <button class="btn sm sec" onclick="setToday(); loadDashboard();">आज</button>
             <button class="btn sm" onclick="loadDashboard()">देखें</button>
           </div>
         </div>
-
         <div class="kpi-grid">
-          <div class="kpi cyan">
-            <div class="kpi-label">Total Daily Sale</div>
-            <div class="kpi-val" id="statTotalSale">₹0</div>
-          </div>
-          <div class="kpi emerald">
-            <div class="kpi-label">Cash Collection</div>
-            <div class="kpi-val" id="statCash">₹0</div>
-          </div>
-          <div class="kpi purple">
-            <div class="kpi-label">Patients Visited</div>
-            <div class="kpi-val" id="statPatients">0</div>
-          </div>
-          <div class="kpi indigo">
-            <div class="kpi-label">Online / Other</div>
-            <div class="kpi-val" id="statOther">₹0</div>
-          </div>
-          <div class="kpi emerald">
-            <div class="kpi-label">Billed Net (Sheet)</div>
-            <div class="kpi-val" id="statBilledNet">₹0</div>
-          </div>
-          <div class="kpi amber">
-            <div class="kpi-label">Day Pending Due</div>
-            <div class="kpi-val" id="statDayPending">₹0</div>
-          </div>
+          <div class="kpi cyan"><div class="kpi-l">Total Daily Sale</div><div class="kpi-v" id="sTotal">₹0</div></div>
+          <div class="kpi emerald"><div class="kpi-l">Medicine Cash Only</div><div class="kpi-v" id="sMedCash">₹0</div></div>
+          <div class="kpi purple"><div class="kpi-l">Consultation Fee</div><div class="kpi-v" id="sConsult">₹0</div></div>
+          <div class="kpi indigo"><div class="kpi-l">Total Cash (All)</div><div class="kpi-v" id="sAllCash">₹0</div></div>
+          <div class="kpi emerald"><div class="kpi-l">Online / UPI</div><div class="kpi-v" id="sOnline">₹0</div></div>
+          <div class="kpi amber"><div class="kpi-l">Patients / Due</div><div class="kpi-v" id="sPatDue">0 | ₹0</div></div>
         </div>
       </div>
 
-      <!-- Canvas Chart -->
-      <div class="canvas-card">
-        <div class="section-head">
-          <h3 class="section-title">Recent Collection Canvas</h3>
-          <span class="pill" id="chartHint">Tap a bar</span>
+      <!-- Daily Sold Medicines Report -->
+      <div class="card">
+        <div class="head">
+          <h3 class="title">आज बिकी हुई दवाइयां (Daily Medicine Report)</h3>
+          <span class="pill" id="soldCountPill">0 items</span>
         </div>
-        <canvas id="salesCanvas" class="chart-box" height="190" onclick="handleChartClick(event)"></canvas>
+        <input type="text" id="soldFilter" oninput="renderSoldMeds()" placeholder="दवा का नाम खोजें..." style="margin-bottom:8px;" />
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>Medicine</th><th>Qty</th><th>MRP Val</th><th>10% Sale</th></tr></thead>
+            <tbody id="soldMedsBody"></tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- Patient OPD Entry -->
-      <div class="canvas-card">
-        <div class="section-head">
-          <h3 class="section-title">New Patient OPD & Prescription</h3>
+      <!-- 7-Day Canvas Chart -->
+      <div class="card">
+        <div class="head">
+          <h3 class="title">Recent Sales vs Cash</h3>
+          <span class="pill" id="chartHint">Tap bar</span>
+        </div>
+        <canvas id="salesCanvas" class="chart" height="170" onclick="handleChartClick(event)"></canvas>
+      </div>
+
+      <!-- Patient Entry Form -->
+      <div class="card">
+        <div class="head">
+          <h3 class="title">नया पेशेंट रिकॉर्ड (OPD + Medicine)</h3>
           <span class="pill">Patient_Register</span>
         </div>
         <form id="patientForm" onsubmit="submitPatient(event)">
           <div class="grid-2">
-            <div>
-              <label>Patient Name *</label>
-              <input type="text" id="pName" required placeholder="मरीज़ का नाम" />
-            </div>
-            <div>
-              <label>Mobile No.</label>
-              <input type="tel" id="pMobile" placeholder="10 अंकों का नंबर" />
-            </div>
-            <div>
-              <label>Age (उम्र)</label>
-              <input type="text" id="pAge" placeholder="जैसे: 28 Y" />
-            </div>
+            <div><label>Patient Name *</label><input type="text" id="pName" required placeholder="मरीज़ का नाम" /></div>
+            <div><label>Mobile No.</label><input type="tel" id="pMobile" placeholder="मोबाइल नंबर" /></div>
+            <div><label>Age</label><input type="text" id="pAge" placeholder="जैसे: 28 Y" /></div>
             <div>
               <label>Gender</label>
-              <select id="pGender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
+              <select id="pGender"><option>Male</option><option>Female</option><option>Other</option></select>
             </div>
           </div>
 
-          <div style="margin-top:10px;">
+          <div style="margin-top:8px;">
             <label>Diagnosis / Notes</label>
-            <textarea id="pDiagnosis" placeholder="डायग्नोसिस या क्लीनिक नोट्स..."></textarea>
+            <textarea id="pDiagnosis" placeholder="डायग्नोसिस या नोट्स..."></textarea>
           </div>
 
-          <div style="margin-top:10px;">
+          <div style="margin-top:8px;">
             <div class="row" style="justify-content:space-between; margin-bottom:6px;">
-              <label style="margin:0;">Medicines (Name • Days • Frequency)</label>
-              <button type="button" class="btn sm purple" onclick="addMedRow()">+ Add Medicine</button>
+              <label style="margin:0;">Medicines (Name • Days • Dose • Timing)</label>
+              <button type="button" class="btn sm pur" onclick="addMedRow()">+ Add Medicine</button>
             </div>
             <div id="medRows"></div>
             <datalist id="stockMedList"></datalist>
           </div>
 
-          <div class="kpi-grid" style="margin-top:10px;">
-            <div>
-              <label>Amount Paid (₹)</label>
-              <input type="number" step="0.01" id="pPaid" value="0" />
-            </div>
-            <div>
-              <label>Payment Mode</label>
-              <select id="pMode">
-                <option value="Cash">Cash</option>
-                <option value="UPI">UPI</option>
-                <option value="Card">Card</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label>Pending Due (₹)</label>
-              <input type="number" step="0.01" id="pPending" value="0" />
+          <!-- Split Payment 1: Consultation -->
+          <div class="pay-box">
+            <label style="color:var(--purple); font-size:12px;">1. Consultation Payment (कंसल्टेशन फीस)</label>
+            <div class="kpi-grid">
+              <div><label>Amount (₹)</label><input type="number" step="0.01" id="cFee" value="0" /></div>
+              <div>
+                <label>Mode</label>
+                <select id="cMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select>
+              </div>
+              <div>
+                <label>Paid To (अकाउंट)</label>
+                <select id="cPaidTo"><option>Ajay</option><option>Jasjyot Kaur</option><option>HUF</option></select>
+              </div>
             </div>
           </div>
 
-          <div style="margin-top:12px;">
-            <button type="submit" class="btn" style="width:100%;">Save Patient Record</button>
+          <!-- Split Payment 2: Medicine -->
+          <div class="pay-box">
+            <label style="color:var(--emerald); font-size:12px;">2. Medicine Payment (दवाई के पैसे)</label>
+            <div class="kpi-grid">
+              <div><label>Amount (₹)</label><input type="number" step="0.01" id="mFee" value="0" /></div>
+              <div>
+                <label>Mode</label>
+                <select id="mMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select>
+              </div>
+              <div>
+                <label>Paid To (अकाउंट)</label>
+                <select id="mPaidTo"><option>Ajay</option><option>Jasjyot Kaur</option><option>HUF</option></select>
+              </div>
+            </div>
           </div>
+
+          <div style="margin-top:8px;">
+            <label>Pending Due (अगर कुछ बाकी है ₹)</label>
+            <input type="number" step="0.01" id="pPending" value="0" />
+          </div>
+
+          <button type="submit" class="btn" style="width:100%; margin-top:10px;">Save Patient Record</button>
         </form>
       </div>
 
       <!-- Date-Wise Patients -->
-      <div class="canvas-card">
-        <div class="section-head">
-          <h3 class="section-title">Selected Date Patients</h3>
-          <span class="pill" id="dateBadge">Today</span>
-        </div>
-        <div id="datePatientsList"><span style="color:var(--muted); font-size:13px;">Loading...</span></div>
+      <div class="card">
+        <div class="head"><h3 class="title">इस तारीख के पेशेंट्स</h3><span class="pill" id="dateBadge">Today</span></div>
+        <div id="datePatientsList"></div>
       </div>
     </section>
 
-    <!-- TAB 2: STOCK & PROFIT -->
-    <section id="tab-stock" class="hidden">
-      <div class="canvas-card">
-        <div class="section-head">
-          <h3 class="section-title">Live Stock & Profit Canvas</h3>
-          <span class="pill">10% Disc Logic</span>
+    <!-- TAB 2: MONTHLY REPORT -->
+    <section id="tab-monthly" class="hidden">
+      <div class="card">
+        <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+          <div style="flex:1; min-width:160px;">
+            <label>महीना चुनें (Monthly Report)</label>
+            <input type="month" id="reportMonth" onchange="loadMonthly()" />
+          </div>
+          <div style="padding-top:14px;"><button class="btn sm" onclick="loadMonthly()">देखें</button></div>
         </div>
         <div class="kpi-grid">
-          <div class="kpi cyan">
-            <div class="kpi-label">Stock Value (MRP)</div>
-            <div class="kpi-val" id="stkMrpVal">₹0</div>
-          </div>
-          <div class="kpi emerald">
-            <div class="kpi-label">10% Minus Sale Value</div>
-            <div class="kpi-val" id="stkSale10Val">₹0</div>
-          </div>
-          <div class="kpi purple">
-            <div class="kpi-label">Estimated Profit</div>
-            <div class="kpi-val" id="stkProfitVal">₹0</div>
-          </div>
-        </div>
-        <div class="kpi-grid" style="margin-top:10px;">
-          <div class="kpi indigo">
-            <div class="kpi-label">Current Strips</div>
-            <div class="kpi-val" id="stkTotalStrips">0</div>
-          </div>
-          <div class="kpi amber">
-            <div class="kpi-label">Purchase Cost</div>
-            <div class="kpi-val" id="stkPurchaseVal">₹0</div>
-          </div>
-          <div class="kpi rose">
-            <div class="kpi-label">Active SKUs</div>
-            <div class="kpi-val" id="stkSkuCount">0</div>
-          </div>
+          <div class="kpi purple"><div class="kpi-l">Total Consultation</div><div class="kpi-v" id="mConsult">₹0</div></div>
+          <div class="kpi cyan"><div class="kpi-l">OPD + Sheet Meds</div><div class="kpi-v" id="mMeds">₹0</div></div>
+          <div class="kpi emerald"><div class="kpi-l">Total Cash</div><div class="kpi-v" id="mCash">₹0</div></div>
+          <div class="kpi indigo"><div class="kpi-l">Total Online/UPI</div><div class="kpi-v" id="mOnline">₹0</div></div>
+          <div class="kpi amber"><div class="kpi-l">Total Patients</div><div class="kpi-v" id="mPatients">0</div></div>
+          <div class="kpi rose"><div class="kpi-l">Month Pending</div><div class="kpi-v" id="mPending">₹0</div></div>
         </div>
       </div>
 
-      <div class="canvas-card">
-        <label>Filter Medicine</label>
-        <input type="text" id="stockFilter" oninput="renderStockTable()" placeholder="दवा का नाम खोजें..." />
-        <div style="overflow-x:auto; margin-top:10px;">
+      <div class="card">
+        <div class="head"><h3 class="title">किसके नंबर / अकाउंट पर कितना गया</h3><span class="pill">HUF • Jasjyot • Ajay</span></div>
+        <div style="overflow-x:auto;">
           <table>
-            <thead>
-              <tr>
-                <th>Medicine</th>
-                <th>Stock</th>
-                <th>MRP Val</th>
-                <th>10% Sale</th>
-                <th>Est. Profit</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Account</th><th>Consult</th><th>Med</th><th>Cash</th><th>UPI/Online</th><th>Total</th></tr></thead>
+            <tbody id="monthlyAccBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: STOCK & 10% PROFIT -->
+    <section id="tab-stock" class="hidden">
+      <div class="card">
+        <div class="head"><h3 class="title">Live Stock & 10% Discount Profit</h3><span class="pill">MRP → 10% Off → Profit</span></div>
+        <div class="kpi-grid">
+          <div class="kpi cyan"><div class="kpi-l">Stock MRP Value</div><div class="kpi-v" id="stkMrp">₹0</div></div>
+          <div class="kpi emerald"><div class="kpi-l">10% Off Sale Value</div><div class="kpi-v" id="stkSale10">₹0</div></div>
+          <div class="kpi purple"><div class="kpi-l">Net Profit (After 10%)</div><div class="kpi-v" id="stkProfit">₹0</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <label>दवा खोजें (Per Strip MRP vs 10% Off Profit)</label>
+        <input type="text" id="stockFilter" oninput="renderStockTable()" placeholder="दवा का नाम टाइप करें..." />
+        <div style="overflow-x:auto; margin-top:8px;">
+          <table>
+            <thead><tr><th>Medicine</th><th>Stock</th><th>MRP</th><th>10% Off</th><th>Cost</th><th>Net Profit</th></tr></thead>
             <tbody id="stockTableBody"></tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- TAB 3: DUES & HISTORY -->
+    <!-- TAB 4: DUES & HISTORY -->
     <section id="tab-dues" class="hidden">
-      <div class="canvas-card">
-        <div class="section-head">
-          <h3 class="section-title">Pending Dues & Hisaab</h3>
-          <span class="pill">Receivables & Payables</span>
-        </div>
+      <div class="card">
         <div class="grid-2">
-          <div class="kpi amber">
-            <div class="kpi-label">आने वाला / बकाया (Patient Dues)</div>
-            <div class="kpi-val" id="dueReceivablesVal">₹0</div>
-          </div>
-          <div class="kpi rose">
-            <div class="kpi-label">देने वाला (Distributor Dues)</div>
-            <div class="kpi-val" id="duePayablesVal">₹0</div>
-          </div>
+          <div class="kpi amber"><div class="kpi-l">आने वाला (Patient Dues)</div><div class="kpi-v" id="dueRec">₹0</div></div>
+          <div class="kpi rose"><div class="kpi-l">देने वाला (Distributor)</div><div class="kpi-v" id="duePay">₹0</div></div>
         </div>
       </div>
-
-      <div class="canvas-card">
-        <h3 class="section-title" style="margin-bottom:8px;">Patient Pending Payments</h3>
-        <div id="receivablesList"></div>
-      </div>
-
-      <div class="canvas-card">
-        <h3 class="section-title" style="margin-bottom:8px;">Distributor Dues (देना है)</h3>
-        <div id="payablesList"></div>
-      </div>
-
-      <div class="canvas-card">
-        <h3 class="section-title" style="margin-bottom:8px;">Search Past Patient History</h3>
+      <div class="card"><h3 class="title" style="margin-bottom:8px;">Patient Pending Dues</h3><div id="receivablesList"></div></div>
+      <div class="card"><h3 class="title" style="margin-bottom:8px;">Distributor Dues</h3><div id="payablesList"></div></div>
+      <div class="card">
+        <h3 class="title" style="margin-bottom:8px;">Search Past Patient History</h3>
         <div class="row">
           <input type="text" id="historyQuery" placeholder="नाम, मोबाइल या डायग्नोसिस..." style="flex:1;" />
-          <button class="btn sm purple" onclick="searchHistory()">Search</button>
+          <button class="btn sm pur" onclick="searchHistory()">Search</button>
         </div>
-        <div id="historyResults" style="margin-top:10px;"></div>
+        <div id="historyResults" style="margin-top:8px;"></div>
       </div>
     </section>
   </div>
 
   <div class="toast" id="toast"></div>
 
-  <nav class="bottom-nav">
-    <button class="nav-btn active" id="nav-daily" onclick="switchTab('daily')">📊 Daily & OPD</button>
-    <button class="nav-btn" id="nav-stock" onclick="switchTab('stock')">💊 Stock & Profit</button>
-    <button class="nav-btn" id="nav-dues" onclick="switchTab('dues')">💰 Dues & History</button>
+  <nav class="nav">
+    <button class="nav-btn active" id="nav-daily" onclick="switchTab('daily')">📊 Daily</button>
+    <button class="nav-btn" id="nav-monthly" onclick="switchTab('monthly')">📅 Monthly</button>
+    <button class="nav-btn" id="nav-stock" onclick="switchTab('stock')">💊 Stock</button>
+    <button class="nav-btn" id="nav-dues" onclick="switchTab('dues')">💰 Dues</button>
   </nav>
 
   <script>
-    const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbz-cDjSvaaIIrR-m2kAfcP5HRDT50adz5rXZagDfTno8pQW6Nu3D0HN7Lr3M9SRyEU/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbz-cDjSvaaIIrR-m2kAfcP5HRDT50adz5rXZagDfTno8pQW6Nu3D0HN7Lr3M9SRyEU/exec';
     let stockCache = null;
+    let soldMedsCache = [];
     let chartBars = [];
 
-    function getScriptUrl() {
-      return (localStorage.getItem('mahajan_canvas_gas_url') || DEFAULT_URL).trim();
-    }
-
-    function saveScriptUrl() {
-      const u = document.getElementById('scriptUrlInput').value.trim() || DEFAULT_URL;
-      localStorage.setItem('mahajan_canvas_gas_url', u);
-      showToast('Web App URL Saved');
-      refreshAll();
-    }
-
-    function toggleConfig() {
-      document.getElementById('configCard').classList.toggle('hidden');
-    }
-
-    function showToast(msg) {
+    function toast(msg) {
       const el = document.getElementById('toast');
-      el.textContent = msg;
-      el.style.display = 'block';
-      clearTimeout(window._t);
-      window._t = setTimeout(() => { el.style.display = 'none'; }, 2500);
+      el.textContent = msg; el.style.display = 'block';
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => { el.style.display = 'none'; }, 2600);
     }
 
-    function fmtINR(n) {
-      const num = Number(n) || 0;
-      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
-    }
+    function inr(n) { return '₹' + (Number(n) || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 }); }
+    function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
     function setToday() {
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, '0');
-      const dd = String(now.getDate()).padStart(2, '0');
-      document.getElementById('reportDate').value = `${yyyy}-${mm}-${dd}`;
+      const d = new Date();
+      const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+      document.getElementById('reportDate').value = `${y}-${m}-${day}`;
+      document.getElementById('reportMonth').value = `${y}-${m}`;
     }
 
-    function switchTab(tab) {
-      ['daily', 'stock', 'dues'].forEach(t => {
-        document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
-        document.getElementById('nav-' + t).classList.toggle('active', t === tab);
+    function switchTab(t) {
+      ['daily', 'monthly', 'stock', 'dues'].forEach(k => {
+        document.getElementById('tab-' + k).classList.toggle('hidden', k !== t);
+        document.getElementById('nav-' + k).classList.toggle('active', k === t);
       });
-      if (tab === 'stock' && !stockCache) loadStock();
-      if (tab === 'dues') loadDues();
+      if (t === 'monthly') loadMonthly();
+      if (t === 'stock' && !stockCache) loadStock();
+      if (t === 'dues') loadDues();
     }
 
-      function addMedRow(name = '', days = '5 Days', freq = '1-0-1') {
+    function addMedRow() {
       const box = document.getElementById('medRows');
       const div = document.createElement('div');
       div.className = 'med-card';
       div.innerHTML = `
         <div class="med-grid">
-          <input type="text" class="med-name" list="stockMedList" placeholder="दवा का नाम" value="${escapeAttr(name)}" />
-          <input type="text" class="med-days" placeholder="Days (5 Days)" value="${escapeAttr(days)}" />
-          <select class="med-freq">
-            <option value="1-0-1" ${freq === '1-0-1' ? 'selected' : ''}>1-0-1 (सुबह-शाम)</option>
-            <option value="1-1-1" ${freq === '1-1-1' ? 'selected' : ''}>1-1-1 (तीन बार)</option>
-            <option value="0-0-1" ${freq === '0-0-1' ? 'selected' : ''}>0-0-1 (रात में)</option>
-            <option value="1-0-0" ${freq === '1-0-0' ? 'selected' : ''}>1-0-0 (सुबह)</option>
-            <option value="SOS" ${freq === 'SOS' ? 'selected' : ''}>SOS (ज़रूरत पर)</option>
+          <input type="text" class="m-name" list="stockMedList" placeholder="दवा का नाम" />
+          <input type="text" class="m-days" placeholder="Days" value="5 Days" />
+          <select class="m-freq">
+            <option value="1-0-1">1-0-1 (सुबह-शाम)</option>
+            <option value="1-1-1">1-1-1 (तीन बार)</option>
+            <option value="0-0-1">0-0-1 (रात में)</option>
+            <option value="1-0-0">1-0-0 (सुबह)</option>
+            <option value="SOS">SOS</option>
           </select>
-          <button type="button" class="btn sm secondary" onclick="this.closest('.med-card').remove()">✕</button>
-        </div>
-      `;
+          <select class="m-time">
+            <option value="After Food">After Food (खाना खाने के बाद)</option>
+            <option value="Before Breakfast">Before Breakfast (नाश्ते से पहले)</option>
+            <option value="Before Food">Before Food (खाने से पहले)</option>
+            <option value="Empty Stomach">Empty Stomach (खाली पेट)</option>
+            <option value="At Bedtime">At Bedtime (सोते समय)</option>
+          </select>
+          <button type="button" class="btn sm sec" onclick="this.closest('.med-card').remove()">✕</button>
+        </div>`;
       box.appendChild(div);
     }
 
-    function escapeAttr(s) {
-      return String(s || '').replace(/"/g, '&quot;');
+        async function apiGet(params) {
+      const res = await fetch(`${API_URL}?${new URLSearchParams(params)}`);
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'Error');
+      return j.data;
     }
 
-    function escapeHtml(s) {
-      return String(s || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+    async function apiPost(body) {
+      const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'POST Error');
+      return j.data;
     }
 
-    async function apiGet(params) {
-      const url = getScriptUrl();
-      const qs = new URLSearchParams(params).toString();
-      const res = await fetch(`${url}?${qs}`);
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || 'API Error');
-      return json.data;
-    }
-
-    async function apiPost(bodyObj) {
-      const url = getScriptUrl();
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(bodyObj)
-      });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || 'POST Error');
-      return json.data;
-    }
-
-    function drawSalesCanvas(items) {
-      const canvas = document.getElementById('salesCanvas');
+    function drawChart(items) {
+      const c = document.getElementById('salesCanvas');
       const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      const w = Math.max(300, rect.width || 600);
-      const h = 190;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-
-      const ctx = canvas.getContext('2d');
-      ctx.scale(dpr, dpr);
-      ctx.clearRect(0, 0, w, h);
-
+      const w = Math.max(300, c.getBoundingClientRect().width || 500), h = 170;
+      c.width = w * dpr; c.height = h * dpr;
+      const ctx = c.getContext('2d');
+      ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
       const list = (items || []).slice(0, 7).reverse();
       chartBars = [];
-
-      if (!list.length) {
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '13px sans-serif';
-        ctx.fillText('No recent daily tally chart data yet.', 18, 95);
-        return;
-      }
-
-      const maxVal = Math.max(...list.map(x => Math.max(x.expectedNetSales || 0, x.cashCollected || 0)), 100);
-      const padL = 14, padR = 14, padT = 20, padB = 30;
-      const plotW = w - padL - padR;
-      const plotH = h - padT - padB;
-      const slotW = plotW / list.length;
-
+      if (!list.length) { ctx.fillStyle = '#94a3b8'; ctx.fillText('No chart data', 16, 85); return; }
+      const maxV = Math.max(...list.map(x => Math.max(x.expectedNetSales || 0, x.cashCollected || 0)), 100);
+      const slotW = (w - 24) / list.length;
       list.forEach((d, i) => {
-        const net = Number(d.expectedNetSales) || 0;
-        const cash = Number(d.cashCollected) || 0;
-        const barW = Math.min(20, Math.max(8, slotW * 0.28));
-        const cx = padL + i * slotW + slotW / 2;
-
-        const netH = (net / maxVal) * plotH;
-        const cashH = (cash / maxVal) * plotH;
-
-        const netY = padT + plotH - netH;
-        const cashY = padT + plotH - cashH;
-
-        ctx.fillStyle = '#22d3ee';
-        ctx.fillRect(cx - barW - 2, netY, barW, netH);
-
-        ctx.fillStyle = '#34d399';
-        ctx.fillRect(cx + 2, cashY, barW, cashH);
-
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText((d.date || '').slice(5), cx, h - 10);
-
-        chartBars.push({
-          x: cx - slotW / 2,
-          y: padT,
-          w: slotW,
-          h: plotH + padB,
-          item: d
-        });
+        const cx = 12 + i * slotW + slotW / 2;
+        const bw = Math.min(18, Math.max(7, slotW * 0.28));
+        const nh = ((d.expectedNetSales || 0) / maxV) * 120;
+        const ch = ((d.cashCollected || 0) / maxV) * 120;
+        ctx.fillStyle = '#22d3ee'; ctx.fillRect(cx - bw - 2, 138 - nh, bw, nh);
+        ctx.fillStyle = '#34d399'; ctx.fillRect(cx + 2, 138 - ch, bw, ch);
+        ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText((d.date || '').slice(5), cx, 158);
+        chartBars.push({ x: cx - slotW / 2, w: slotW, item: d });
       });
     }
 
-    function handleChartClick(ev) {
-      const rect = ev.target.getBoundingClientRect();
-      const x = ev.clientX - rect.left;
+        function handleChartClick(ev) {
+      const x = ev.clientX - ev.target.getBoundingClientRect().left;
       const hit = chartBars.find(b => x >= b.x && x <= b.x + b.w);
-      if (hit) {
-        document.getElementById('chartHint').textContent =
-          `${hit.item.date}: Net ${fmtINR(hit.item.expectedNetSales)} | Cash ${fmtINR(hit.item.cashCollected)}`;
-      }
+      if (hit) document.getElementById('chartHint').textContent = `${hit.item.date}: Sale ${inr(hit.item.expectedNetSales)} | Cash ${inr(hit.item.cashCollected)}`;
+    }
+
+    function renderSoldMeds() {
+      const q = (document.getElementById('soldFilter').value || '').trim().toLowerCase();
+      const list = soldMedsCache.filter(m => !q || m.name.toLowerCase().includes(q));
+      const tb = document.getElementById('soldMedsBody');
+      if (!list.length) { tb.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">Is tarikh ki koi dawai bikri nahi mili.</td></tr>'; return; }
+      tb.innerHTML = list.map(m => `
+        <tr>
+          <td><strong>${esc(m.name)}</strong></td>
+          <td>${m.strips ? m.strips + ' Strip ' : ''}${m.tablets ? m.tablets + ' Tab' : ''}</td>
+          <td>${inr(m.grossMrp)}</td>
+          <td style="color:var(--emerald); font-weight:700;">${inr(m.netSale10)}</td>
+        </tr>`).join('');
     }
 
     async function loadDashboard() {
-      const dateVal = document.getElementById('reportDate').value;
-      document.getElementById('dateBadge').textContent = dateVal || 'Today';
+      const dt = document.getElementById('reportDate').value;
+      document.getElementById('dateBadge').textContent = dt;
       try {
-        const data = await apiGet({ action: 'dashboard', date: dateVal });
-        document.getElementById('statTotalSale').textContent = fmtINR(data.totalDailySale);
-        document.getElementById('statCash').textContent = fmtINR(data.totalCashCollection);
-        document.getElementById('statPatients').textContent = data.patientCount;
-        document.getElementById('statOther').textContent = fmtINR(data.totalOtherCollection);
-        document.getElementById('statBilledNet').textContent = fmtINR(data.billedNet);
-        document.getElementById('statDayPending').textContent = fmtINR(data.opdPendingForDate);
+        const d = await apiGet({ action: 'dashboard', date: dt });
+        document.getElementById('sTotal').textContent = inr(d.totalDailySale);
+        document.getElementById('sMedCash').textContent = inr(d.medicineCashOnly);
+        document.getElementById('sConsult').textContent = inr(d.consultTotal);
+        document.getElementById('sAllCash').textContent = inr(d.totalCashCollection);
+        document.getElementById('sOnline').textContent = inr(d.onlineTotal);
+        document.getElementById('sPatDue').textContent = `${d.patientCount} | ${inr(d.opdPendingForDate)}`;
 
-        drawSalesCanvas(data.recentCollections || []);
+        soldMedsCache = d.soldMedicines || [];
+        document.getElementById('soldCountPill').textContent = `${soldMedsCache.length} items`;
+        renderSoldMeds();
+        drawChart(d.recentCollections || []);
 
-        const pBox = document.getElementById('datePatientsList');
-        if (!data.patients || !data.patients.length) {
-          pBox.innerHTML = '<span style="color:var(--muted); font-size:13px;">इस तारीख की कोई पेशेंट एंट्री नहीं है।</span>';
+        const box = document.getElementById('datePatientsList');
+        if (!d.patients || !d.patients.length) {
+          box.innerHTML = '<span style="color:var(--muted); font-size:13px;">Is tarikh ki koi patient entry nahi hai.</span>';
         } else {
-          pBox.innerHTML = data.patients.map(p => `
-            <div class="item-row">
+          box.innerHTML = d.patients.map(p => `
+            <div class="item">
               <div class="row" style="justify-content:space-between;">
-                <strong style="color:var(--cyan);">${escapeHtml(p.patientName)}</strong>
-                <span class="badge ${p.pendingAmount > 0 ? 'badge-due' : 'badge-ok'}">
-                  Paid: ${fmtINR(p.amountPaid)} (${escapeHtml(p.paymentMode)})
-                </span>
+                <strong style="color:var(--cyan);">${esc(p.patientName)} (${esc(p.age || '-')})</strong>
+                <span style="color:var(--emerald); font-weight:700;">Total: ${inr(p.totalPaid)}</span>
               </div>
-              <div style="color:var(--muted); font-size:12px; margin-top:2px;">
-                Age: ${escapeHtml(p.age || '-')} • Mobile: ${escapeHtml(p.mobile || '-')}
-                ${p.pendingAmount > 0 ? ` • <span style="color:var(--amber); font-weight:700;">Due: ${fmtINR(p.pendingAmount)}</span>` : ''}
+              <div style="font-size:12px; color:var(--muted); margin-top:2px;">
+                Consult: ${inr(p.consultFee)} (${esc(p.consultMode)} -> ${esc(p.consultPaidTo)}) |
+                Med: ${inr(p.medAmount)} (${esc(p.medMode)} -> ${esc(p.medPaidTo)})
+                ${p.pendingAmount > 0 ? ` | <strong style="color:var(--amber);">Due: ${inr(p.pendingAmount)}</strong>` : ''}
               </div>
-              ${p.diagnosis ? `<div style="margin-top:4px;"><strong>Diagnosis:</strong> ${escapeHtml(p.diagnosis)}</div>` : ''}
-              ${p.medicinesDosage ? `<div style="margin-top:2px; color:var(--emerald);"><strong>Meds:</strong> ${escapeHtml(p.medicinesDosage)}</div>` : ''}
-            </div>
-          `).join('');
+              ${p.diagnosis ? `<div style="margin-top:3px;"><strong>Diagnosis:</strong> ${esc(p.diagnosis)}</div>` : ''}
+              ${p.medicinesDosage ? `<div style="margin-top:2px; color:var(--emerald);"><strong>Meds:</strong> ${esc(p.medicinesDosage)}</div>` : ''}
+            </div>`).join('');
         }
-      } catch (e) {
-        showToast('Error: ' + e.message);
-      }
+      } catch (e) { toast('Load Error: ' + e.message); }
     }
 
     async function submitPatient(ev) {
       ev.preventDefault();
       const meds = [];
       document.querySelectorAll('#medRows .med-card').forEach(r => {
-        const name = r.querySelector('.med-name').value.trim();
-        const days = r.querySelector('.med-days').value.trim();
-        const frequency = r.querySelector('.med-freq').value.trim();
-        if (name) meds.push({ name, days, frequency });
+        const name = r.querySelector('.m-name').value.trim();
+        if (name) meds.push({
+          name,
+          days: r.querySelector('.m-days').value.trim(),
+          frequency: r.querySelector('.m-freq').value,
+          timing: r.querySelector('.m-time').value
+        });
       });
-
       const entry = {
         date: document.getElementById('reportDate').value,
         patientName: document.getElementById('pName').value.trim(),
@@ -664,140 +485,123 @@
         gender: document.getElementById('pGender').value,
         diagnosis: document.getElementById('pDiagnosis').value.trim(),
         medicines: meds,
-        amountPaid: document.getElementById('pPaid').value,
-        paymentMode: document.getElementById('pMode').value,
+        consultFee: document.getElementById('cFee').value,
+        consultMode: document.getElementById('cMode').value,
+        consultPaidTo: document.getElementById('cPaidTo').value,
+        medAmount: document.getElementById('mFee').value,
+        medMode: document.getElementById('mMode').value,
+        medPaidTo: document.getElementById('mPaidTo').value,
         pendingAmount: document.getElementById('pPending').value
       };
-
       try {
         await apiPost({ action: 'addPatient', entry });
-        showToast('पेशेंट रिकॉर्ड सेव हो गया!');
+        toast('Patient record save ho gaya!');
         document.getElementById('patientForm').reset();
         document.getElementById('medRows').innerHTML = '';
         addMedRow();
         loadDashboard();
-      } catch (e) {
-        showToast('Save failed: ' + e.message);
-      }
+      } catch (e) { toast('Save Error: ' + e.message); }
+    }
+    async function loadMonthly() {
+      const m = document.getElementById('reportMonth').value;
+      try {
+        const d = await apiGet({ action: 'monthly', month: m });
+        document.getElementById('mConsult').textContent = inr(d.totalConsult);
+        document.getElementById('mMeds').textContent = inr(d.totalOpdMed + d.sheetMedSales);
+        document.getElementById('mCash').textContent = inr(d.totalCash);
+        document.getElementById('mOnline').textContent = inr(d.totalOnline);
+        document.getElementById('mPatients').textContent = d.patientCount;
+        document.getElementById('mPending').textContent = inr(d.totalPending);
+
+        const accs = d.accounts || {};
+        document.getElementById('monthlyAccBody').innerHTML = ['HUF', 'Jasjyot Kaur', 'Ajay', 'Other'].map(k => {
+          const a = accs[k] || { consult: 0, med: 0, cash: 0, online: 0, total: 0 };
+          return `<tr>
+            <td><strong>${esc(k)}</strong></td>
+            <td>${inr(a.consult)}</td>
+            <td>${inr(a.med)}</td>
+            <td>${inr(a.cash)}</td>
+            <td style="color:var(--cyan);">${inr(a.online)}</td>
+            <td style="color:var(--emerald); font-weight:800;">${inr(a.total)}</td>
+          </tr>`;
+        }).join('');
+      } catch (e) { toast('Monthly Error: ' + e.message); }
     }
 
     async function loadStock() {
       try {
-        const data = await apiGet({ action: 'stock' });
-        stockCache = data;
-        document.getElementById('stkMrpVal').textContent = fmtINR(data.totalMrpValue);
-        document.getElementById('stkSale10Val').textContent = fmtINR(data.discountedSaleValue10);
-        document.getElementById('stkProfitVal').textContent = fmtINR(data.estimatedProfitAfter10Disc);
-        document.getElementById('stkTotalStrips').textContent = data.totalCurrentStrips;
-        document.getElementById('stkPurchaseVal').textContent = fmtINR(data.totalPurchaseCostValue);
-        document.getElementById('stkSkuCount').textContent = (data.items || []).filter(x => x.currentStock > 0).length;
-
-        const dl = document.getElementById('stockMedList');
-        dl.innerHTML = (data.medicineNames || []).map(n => `<option value="${escapeAttr(n)}"></option>`).join('');
+        const d = await apiGet({ action: 'stock' });
+        stockCache = d;
+        document.getElementById('stkMrp').textContent = inr(d.totalMrpValue);
+        document.getElementById('stkSale10').textContent = inr(d.discountedSaleValue10);
+        document.getElementById('stkProfit').textContent = inr(d.estimatedProfitAfter10Disc);
+        document.getElementById('stockMedList').innerHTML = (d.medicineNames || []).map(n => `<option value="${esc(n)}"></option>`).join('');
         renderStockTable();
-      } catch (e) {
-        showToast('Stock Error: ' + e.message);
-      }
+      } catch (e) { toast('Stock Error: ' + e.message); }
     }
 
     function renderStockTable() {
       if (!stockCache) return;
       const q = (document.getElementById('stockFilter').value || '').trim().toLowerCase();
-      const filtered = (stockCache.items || []).filter(it => !q || it.name.toLowerCase().includes(q));
-      document.getElementById('stockTableBody').innerHTML = filtered.slice(0, 120).map(it => `
+      const list = (stockCache.items || []).filter(i => !q || i.name.toLowerCase().includes(q));
+      document.getElementById('stockTableBody').innerHTML = list.slice(0, 120).map(i => `
         <tr>
-          <td><strong>${escapeHtml(it.name)}</strong><br><span style="color:var(--muted); font-size:11px;">${escapeHtml(it.batch || '')}</span></td>
-          <td>${it.currentStock}</td>
-          <td>${fmtINR(it.mrpValue)}</td>
-          <td style="color:var(--cyan);">${fmtINR(it.saleValue10)}</td>
-          <td style="color:${it.estimatedProfit >= 0 ? 'var(--emerald)' : 'var(--rose)'}; font-weight:700;">${fmtINR(it.estimatedProfit)}</td>
-        </tr>
-      `).join('');
+          <td><strong>${esc(i.name)}</strong></td>
+          <td>${i.currentStock}</td>
+          <td>${inr(i.mrp)}</td>
+          <td style="color:var(--cyan);">${inr(i.rateAfter10)}</td>
+          <td>${i.purchasePrice > 0 ? inr(i.purchasePrice) : '-'}</td>
+          <td style="color:${i.profitPerStrip === null ? 'var(--muted)' : (i.profitPerStrip >= 0 ? 'var(--emerald)' : 'var(--rose)')}; font-weight:700;">
+            ${i.profitPerStrip === null ? '-' : inr(i.profitPerStrip)}
+          </td>
+        </tr>`).join('');
     }
 
-    async function loadDues() {
-      try {
-        const data = await apiGet({ action: 'dues' });
-        document.getElementById('dueReceivablesVal').textContent = fmtINR(data.totalReceivables);
-        document.getElementById('duePayablesVal').textContent = fmtINR(data.totalPayables);
-
-        const rBox = document.getElementById('receivablesList');
-        if (!data.patientReceivables || !data.patientReceivables.length) {
-          rBox.innerHTML = '<span style="color:var(--muted); font-size:13px;">कोई पेशेंट बकाया नहीं है।</span>';
-        } else {
-          rBox.innerHTML = data.patientReceivables.map(r => `
-            <div class="item-row">
-              <div class="row" style="justify-content:space-between;">
-                <div>
-                  <strong>${escapeHtml(r.patientName)}</strong> (${escapeHtml(r.date)})<br>
-                  <span style="font-size:12px; color:var(--muted);">Mobile: ${escapeHtml(r.mobile || '-')} • Due: <strong style="color:var(--amber);">${fmtINR(r.pendingAmount)}</strong></span>
-                </div>
-                <button class="btn sm" onclick="markCleared(${r.rowIndex})">Mark Paid</button>
-              </div>
-            </div>
-          `).join('');
-        }
-
-        const pBox = document.getElementById('payablesList');
-        if (!data.supplierPayables || !data.supplierPayables.length) {
-          pBox.innerHTML = '<span style="color:var(--muted); font-size:13px;">कोई डिस्ट्रीब्यूटर बकाया नहीं मिला।</span>';
-        } else {
-          pBox.innerHTML = data.supplierPayables.map(s => `
-            <div class="item-row">
-              <strong>${escapeHtml(s.distributor || 'Distributor')}</strong> — <span style="color:var(--rose); font-weight:800;">${fmtINR(s.dueAmount)}</span><br>
-              <span style="font-size:12px; color:var(--muted);">Bill: ${escapeHtml(s.invoiceNo || '-')} • ${escapeHtml(s.medicineName || '')} (${s.daysPending} days)</span>
-            </div>
-          `).join('');
-        }
-      } catch (e) {
-        showToast('Dues Error: ' + e.message);
-      }
+    async function loadDues
+try {
+        const d = await apiGet({ action: 'dues' });
+        document.getElementById('dueRec').textContent = inr(d.totalReceivables);
+        document.getElementById('duePay').textContent = inr(d.totalPayables);
+        document.getElementById('receivablesList').innerHTML = (d.patientReceivables || []).length
+          ? d.patientReceivables.map(r => `
+            <div class="item row" style="justify-content:space-between;">
+              <div><strong>${esc(r.patientName)}</strong> (${esc(r.date)})<br><span style="color:var(--amber); font-size:12px;">Due: ${inr(r.pendingAmount)}</span></div>
+              <button class="btn sm" onclick="markPaid(${r.rowIndex})">Mark Paid</button>
+            </div>`).join('')
+          : '<span style="color:var(--muted); font-size:13px;">Koi bakaya nahi.</span>';
+        document.getElementById('payablesList').innerHTML = (d.supplierPayables || []).length
+          ? d.supplierPayables.map(s => `
+            <div class="item"><strong>${esc(s.distributor)}</strong> — <span style="color:var(--rose); font-weight:700;">${inr(s.dueAmount)}</span><br><span style="font-size:12px; color:var(--muted);">Bill: ${esc(s.invoiceNo)} • ${esc(s.medicineName)} (${s.daysPending}d)</span></div>`).join('')
+          : '<span style="color:var(--muted); font-size:13px;">Koi distributor bakaya nahi.</span>';
+      } catch (e) { toast('Dues Error: ' + e.message); }
     }
 
-    async function markCleared(rowIndex) {
-      try {
-        await apiPost({ action: 'settlePatientDue', rowIndex });
-        showToast('बकाया क्लियर कर दिया गया');
-        loadDues();
-        loadDashboard();
-      } catch (e) {
-        showToast('Error: ' + e.message);
-      }
+    async function markPaid(rowIndex) {
+      try { await apiPost({ action: 'settlePatientDue', rowIndex }); toast('Bakaya clear!'); loadDues(); loadDashboard(); }
+      catch (e) { toast('Error: ' + e.message); }
     }
 
     async function searchHistory() {
       const q = document.getElementById('historyQuery').value.trim();
       try {
-        const data = await apiGet({ action: 'history', q });
-        const box = document.getElementById('historyResults');
-        if (!data.records || !data.records.length) {
-          box.innerHTML = '<span style="color:var(--muted); font-size:13px;">कोई रिकॉर्ड नहीं मिला।</span>';
-          return;
-        }
-        box.innerHTML = data.records.map(r => `
-          <div class="item-row">
-            <strong style="color:var(--cyan);">${escapeHtml(r.patientName)}</strong> (${escapeHtml(r.date)}) • Age: ${escapeHtml(r.age || '-')}<br>
-            <span style="font-size:12px; color:var(--muted);">Mobile: ${escapeHtml(r.mobile || '-')} • Paid: ${fmtINR(r.amountPaid)}</span>
-            ${r.diagnosis ? `<div style="margin-top:3px;"><strong>Diagnosis:</strong> ${escapeHtml(r.diagnosis)}</div>` : ''}
-            ${r.medicinesDosage ? `<div style="margin-top:2px; color:var(--emerald);"><strong>Meds:</strong> ${escapeHtml(r.medicinesDosage)}</div>` : ''}
-          </div>
-        `).join('');
-      } catch (e) {
-        showToast('Search Error: ' + e.message);
-      }
+        const d = await apiGet({ action: 'history', q });
+        document.getElementById('historyResults').innerHTML = (d.records || []).length
+          ? d.records.map(r => `
+            <div class="item">
+              <strong style="color:var(--cyan);">${esc(r.patientName)}</strong> (${esc(r.date)}) • Age: ${esc(r.age || '-')}<br>
+              <span style="font-size:12px; color:var(--muted);">Consult: ${inr(r.consultFee)} (${esc(r.consultPaidTo)}) | Med: ${inr(r.medAmount)} (${esc(r.medPaidTo)})</span>
+              ${r.diagnosis ? `<div><strong>Diagnosis:</strong> ${esc(r.diagnosis)}</div>` : ''}
+              ${r.medicinesDosage ? `<div style="color:var(--emerald);"><strong>Meds:</strong> ${esc(r.medicinesDosage)}</div>` : ''}
+            </div>`).join('')
+          : '<span style="color:var(--muted); font-size:13px;">Koi record nahi mila.</span>';
+      } catch (e) { toast('Search Error: ' + e.message); }
     }
 
-    function refreshAll() {
-      loadDashboard();
-      loadStock();
-      loadDues();
-    }
+    function refreshAll() { loadDashboard(); loadStock(); loadDues(); }
 
     setToday();
     addMedRow();
-    document.getElementById('scriptUrlInput').value = getScriptUrl();
     refreshAll();
   </script>
 </body>
 </html>
-
