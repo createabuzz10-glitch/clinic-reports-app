@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahajan ENT Clinic — Canvas Reports & OPD</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-grid: rgba(56, 189, 248, 0.06);
+      --surface: rgba(15, 23, 42, 0.88);
+      --surface-2: rgba(30, 41, 59, 0.78);
+      --border: rgba(148, 163, 184, 0.18);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --cyan: #22d3ee;
+      --emerald: #34d399;
+      --purple: #c084fc;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+      --indigo: #818cf8;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(34, 211, 238, 0.16), transparent 36%),
+        radial-gradient(circle at 88% 14%, rgba(192, 132, 252, 0.16), transparent 38%),
+        radial-gradient(circle at 50% 92%, rgba(52, 211, 153, 0.12), transparent 42%),
+        linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px, 28px 28px;
+      padding-bottom: 84px;
+      min-height: 100vh;
+    }
+    header {
+      position: sticky; top: 0; z-index: 30;
+      backdrop-filter: blur(14px);
+      background: rgba(9, 14, 26, 0.82);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .brand-title {
+      margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple), var(--emerald));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .brand-sub { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
+    .icon-btn {
+      background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 8px 10px; font-size: 14px; cursor: pointer;
+    }
+    .container { max-width: 960px; margin: 14px auto; padding: 0 12px; }
+    .canvas-card {
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .section-title { margin: 0; font-size: 15px; font-weight: 700; color: var(--text); }
+    .pill {
+      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+      background: rgba(34, 211, 238, 0.14); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.3);
+    }
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    @media (max-width: 640px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    .kpi {
+      border-radius: 14px; padding: 12px; position: relative; overflow: hidden;
+      background: var(--surface-2); border: 1px solid var(--border);
+    }
+    .kpi::before {
+      content: ''; position: absolute; inset: 0 0 auto 0; height: 3px;
+    }
+    .kpi.cyan::before { background: linear-gradient(90deg, var(--cyan), #3b82f6); }
+    .kpi.emerald::before { background: linear-gradient(90deg, var(--emerald), #10b981); }
+    .kpi.purple::before { background: linear-gradient(90deg, var(--purple), #ec4899); }
+    .kpi.amber::before { background: linear-gradient(90deg, var(--amber), #f97316); }
+    .kpi.rose::before { background: linear-gradient(90deg, var(--rose), #e11d48); }
+    .kpi.indigo::before { background: linear-gradient(90deg, var(--indigo), var(--cyan)); }
+    .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .kpi-val { font-size: 18px; font-weight: 800; margin-top: 5px; }
+    .kpi.cyan .kpi-val { color: var(--cyan); }
+    .kpi.emerald .kpi-val { color: var(--emerald); }
+    .kpi.purple .kpi-val { color: var(--purple); }
+    .kpi.amber .kpi-val { color: var(--amber); }
+    .kpi.rose .kpi-val { color: var(--rose); }
+    .kpi.indigo .kpi-val { color: var(--indigo); }
+
+    canvas.chart-box {
+      width: 100%; height: 190px; display: block; border-radius: 12px;
+      background: rgba(2, 6, 23, 0.65); border: 1px solid var(--border);
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
+    input, select, textarea {
+      width: 100%; padding: 9px 11px; border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(2, 6, 23, 0.72); color: var(--text); font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+    }
+    textarea { min-height: 64px; resize: vertical; }
+    .btn {
+      border: none; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700;
+      cursor: pointer; color: #050811;
+      background: linear-gradient(135deg, var(--cyan), var(--emerald));
+    }
+    .btn.secondary {
+      background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+    }
+    .btn.purple {
+      background: linear-gradient(135deg, var(--purple), var(--indigo)); color: #fff;
+    }
+    .btn.amber {
+      background: linear-gradient(135deg, var(--amber), #f97316); color: #090d16;
+    }
+    .btn.sm { padding: 6px 10px; font-size: 12px; }
+    .med-card {
+      background: rgba(2, 6, 23, 0.6); border: 1px solid var(--border);
+      border-radius: 12px; padding: 9px; margin-bottom: 8px;
+    }
+    .med-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr auto; gap: 6px; align-items: center; }
+    @media (max-width: 640px) { .med-grid { grid-template-columns: 1fr 1fr; } }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .item-row {
+      padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    }
+    .badge-ok { background: rgba(52, 211, 153, 0.16); color: var(--emerald); }
+    .badge-due { background: rgba(251, 191, 36, 0.18); color: var(--amber); }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); }
+    th { color: var(--cyan); font-weight: 700; background: rgba(2, 6, 23, 0.55); }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+      backdrop-filter: blur(14px); background: rgba(9, 14, 26, 0.9);
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(3, 1fr); padding: 6px 8px; gap: 6px;
+    }
+    .nav-btn {
+      background: transparent; color: var(--muted); border: 1px solid transparent;
+      border-radius: 12px; padding: 7px 6px; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .nav-btn.active {
+      color: var(--text); background: rgba(34, 211, 238, 0.14);
+      border-color: rgba(34, 211, 238, 0.35);
+    }
+    .hidden { display: none; }
+    .toast {
+      position: fixed; bottom: 78px; left: 50%; transform: translateX(-50%);
+      background: #0f172a; color: var(--cyan); border: 1px solid var(--cyan);
+      padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      z-index: 60; display: none; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 class="brand-title">Mahajan ENT Clinic</h1>
+      <p class="brand-sub">Vibrant Canvas • Daily Reports, OPD & Stock Valuation</p>
+    </div>
+    <div class="row">
+      <button class="icon-btn" onclick="refreshAll()" title="Refresh">↻</button>
+      <button class="icon-btn" onclick="toggleConfig()" title="Backend URL">⚙️</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="canvas-card hidden" id="configCard">
+      <div class="section-head">
+        <h3 class="section-title">Apps Script Web App URL</h3>
+        <span class="pill">Live Connected</span>
+      </div>
+      <div class="row">
+        <input type="url" id="scriptUrlInput" style="flex:1;" />
+        <button class="btn sm" onclick="saveScriptUrl()">Save</button>
+      </div>
+    </div>
+
+    <!-- TAB 1: DAILY REPORT & OPD -->
+    <section id="tab-daily">
+      <div class="canvas-card">
+        <div class="row" style="justify-content:space-between; margin-bottom:12px;">
+          <div style="flex:1; min-width:170px;">
+            <label>तारीख चुनें (Date Report)</label>
+            <input type="date" id="reportDate" onchange="loadDashboard()" />
+          </div>
+          <div class="row" style="padding-top:16px;">
+            <button class="btn sm secondary" onclick="setToday(); loadDashboard();">आज</button>
+            <button class="btn sm" onclick="loadDashboard()">देखें</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi cyan">
+            <div class="kpi-label">Total Daily Sale</div>
+            <div class="kpi-val" id="statTotalSale">₹0</div>
+          </div>
+          <div class="kpi emerald">
+            <div class="kpi-label">Cash Collection</div>
+            <div class="kpi-val" id="statCash">₹0</div>
+          </div>
+          <div class="kpi purple">
+            <div class="kpi-label">Patients Visited</div>
+            <div class="kpi-val" id="statPatients">0</div>
+          </div>
+          <div class="kpi indigo">
+            <div class="kpi-label">Online / Other</div>
+            <div class="kpi-val" id="statOther">₹0</div>
+          </div>
+          <div class="kpi emerald">
+            <div class="kpi-label">Billed Net (Sheet)</div>
+            <div class="kpi-val" id="statBilledNet">₹0</div>
+          </div>
+          <div class="kpi amber">
+            <div class="kpi-label">Day Pending Due</div>
+            <div class="kpi-val" id="statDayPending">₹0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas Chart -->
+      <div class="canvas-card">
+        <div class="section-head">
+          <h3 class="section-title">Recent Collection Canvas</h3>
+          <span class="pill" id="chartHint">Tap a bar</span>
+        </div>
+        <canvas id="salesCanvas" class="chart-box" height="190" onclick="handleChartClick(event)"></canvas>
+      </div>
+
+      <!-- Patient OPD Entry -->
+      <div class="canvas-card">
+        <div class="section-head">
+          <h3 class="section-title">New Patient OPD & Prescription</h3>
+          <span class="pill">Patient_Register</span>
+        </div>
+        <form id="patientForm" onsubmit="submitPatient(event)">
+          <div class="grid-2">
+            <div>
+              <label>Patient Name *</label>
+              <input type="text" id="pName" required placeholder="मरीज़ का नाम" />
+            </div>
+            <div>
+              <label>Mobile No.</label>
+              <input type="tel" id="pMobile" placeholder="10 अंकों का नंबर" />
+            </div>
+            <div>
+              <label>Age (उम्र)</label>
+              <input type="text" id="pAge" placeholder="जैसे: 28 Y" />
+            </div>
+            <div>
+              <label>Gender</label>
+              <select id="pGender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Diagnosis / Notes</label>
+            <textarea id="pDiagnosis" placeholder="डायग्नोसिस या क्लीनिक नोट्स..."></textarea>
+          </div>
+
+          <div style="margin-top:10px;">
+            <div class="row" style="justify-content:space-between; margin-bottom:6px;">
+              <label style="margin:0;">Medicines (Name • Days • Frequency)</label>
+              <button type="button" class="btn sm purple" onclick="addMedRow()">+ Add Medicine</button>
+            </div>
+            <div id="medRows"></div>
+            <datalist id="stockMedList"></datalist>
+          </div>
+
+          <div class="kpi-grid" style="margin-top:10px;">
+            <div>
+              <label>Amount Paid (₹)</label>
+              <input type="number" step="0.01" id="pPaid" value="0" />
+            </div>
+            <div>
+              <label>Payment Mode</label>
+              <select id="pMode">
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI</option>
+                <option value="Card">Card</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label>Pending Due (₹)</label>
+              <input type="number" step="0.01" id="pPending" value="0" />
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <button type="submit" class="btn" style="width:100%;">Save Patient Record</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Date-Wise Patients -->
+      <div class="canvas-card">
+        <div class="section-head">
+          <h3 class="section-title">Selected Date Patients</h3>
+          <span class="pill" id="dateBadge">Today</span>
+        </div>
+        <div id="datePatientsList"><span style="color:var(--muted); font-size:13px;">Loading...</span></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: STOCK & PROFIT -->
+    <section id="tab-stock" class="hidden">
+      <div class="canvas-card">
+        <div class="section-head">
+          <h3 class="section-title">Live Stock & Profit Canvas</h3>
+          <span class="pill">10% Disc Logic</span>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi cyan">
+            <div class="kpi-label">Stock Value (MRP)</div>
+            <div class="kpi-val" id="stkMrpVal">₹0</div>
+          </div>
+          <div class="kpi emerald">
+            <div class="kpi-label">10% Minus Sale Value</div>
+            <div class="kpi-val" id="stkSale10Val">₹0</div>
+          </div>
+          <div class="kpi purple">
+            <div class="kpi-label">Estimated Profit</div>
+            <div class="kpi-val" id="stkProfitVal">₹0</div>
+          </div>
+        </div>
+        <div class="kpi-grid" style="margin-top:10px;">
+          <div class="kpi indigo">
+            <div class="kpi-label">Current Strips</div>
+            <div class="kpi-val" id="stkTotalStrips">0</div>
+          </div>
+          <div class="kpi amber">
+            <div class="kpi-label">Purchase Cost</div>
+            <div class="kpi-val" id="stkPurchaseVal">₹0</div>
+          </div>
+          <div class="kpi rose">
+            <div class="kpi-label">Active SKUs</div>
+            <div class="kpi-val" id="stkSkuCount">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="canvas-card">
+        <label>Filter Medicine</label>
+        <input type="text" id="stockFilter" oninput="renderStockTable()" placeholder="दवा का नाम खोजें..." />
+        <div style="overflow-x:auto; margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Medicine</th>
+                <th>Stock</th>
+                <th>MRP Val</th>
+                <th>10% Sale</th>
+                <th>Est. Profit</th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: DUES & HISTORY -->
+    <section id="tab-dues" class="hidden">
+      <div class="canvas-card">
+        <div class="section-head">
+          <h3 class="section-title">Pending Dues & Hisaab</h3>
+          <span class="pill">Receivables & Payables</span>
+        </div>
+        <div class="grid-2">
+          <div class="kpi amber">
+            <div class="kpi-label">आने वाला / बकाया (Patient Dues)</div>
+            <div class="kpi-val" id="dueReceivablesVal">₹0</div>
+          </div>
+          <div class="kpi rose">
+            <div class="kpi-label">देने वाला (Distributor Dues)</div>
+            <div class="kpi-val" id="duePayablesVal">₹0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="canvas-card">
+        <h3 class="section-title" style="margin-bottom:8px;">Patient Pending Payments</h3>
+        <div id="receivablesList"></div>
+      </div>
+
+      <div class="canvas-card">
+        <h3 class="section-title" style="margin-bottom:8px;">Distributor Dues (देना है)</h3>
+        <div id="payablesList"></div>
+      </div>
+
+      <div class="canvas-card">
+        <h3 class="section-title" style="margin-bottom:8px;">Search Past Patient History</h3>
+        <div class="row">
+          <input type="text" id="historyQuery" placeholder="नाम, मोबाइल या डायग्नोसिस..." style="flex:1;" />
+          <button class="btn sm purple" onclick="searchHistory()">Search</button>
+        </div>
+        <div id="historyResults" style="margin-top:10px;"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-daily" onclick="switchTab('daily')">📊 Daily & OPD</button>
+    <button class="nav-btn" id="nav-stock" onclick="switchTab('stock')">💊 Stock & Profit</button>
+    <button class="nav-btn" id="nav-dues" onclick="switchTab('dues')">💰 Dues & History</button>
+  </nav>
+
+  <script>
+    const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbz-cDjSvaaIIrR-m2kAfcP5HRDT50adz5rXZagDfTno8pQW6Nu3D0HN7Lr3M9SRyEU/exec';
+    let stockCache = null;
+    let chartBars = [];
+
+    function getScriptUrl() {
+      return (localStorage.getItem('mahajan_canvas_gas_url') || DEFAULT_URL).trim();
+    }
+
+    function saveScriptUrl() {
+      const u = document.getElementById('scriptUrlInput').value.trim() || DEFAULT_URL;
+      localStorage.setItem('mahajan_canvas_gas_url', u);
+      showToast('Web App URL Saved');
+      refreshAll();
+    }
+
+    function toggleConfig() {
+      document.getElementById('configCard').classList.toggle('hidden');
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.style.display = 'block';
+      clearTimeout(window._t);
+      window._t = setTimeout(() => { el.style.display = 'none'; }, 2500);
+    }
+
+    function fmtINR(n) {
+      const num = Number(n) || 0;
+      return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    }
+
+    function setToday() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      document.getElementById('reportDate').value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    function switchTab(tab) {
+      ['daily', 'stock', 'dues'].forEach(t => {
+        document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
+        document.getElementById('nav-' + t).classList.toggle('active', t === tab);
+      });
+      if (tab === 'stock' && !stockCache) loadStock();
+      if (tab === 'dues') loadDues();
+    }
+
+    function addMedRow(name = '', days = '5 Days', freq = '1-0-1') {
+      const box = document.getElementById('medRows');
+      const div = document.createElement('div');
+      div.className = 'med-card';
+      div.innerHTML = `
+        <div class="med-grid">
+          <input type="text" class="med-name" list="stockMedList" placeholder="दवा का नाम" value="${escapeAttr(name)}" />
+          <input type="text" class="med-days" placeholder="Days (5 Days)" value="${escapeAttr
