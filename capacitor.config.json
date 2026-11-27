@@ -1,0 +1,8 @@
+{
+  "appId": "com.mahajanent.reports",
+  "appName": "Mahajan ENT Reports",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
