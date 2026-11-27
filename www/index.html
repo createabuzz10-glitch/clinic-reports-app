@@ -481,11 +481,323 @@
       if (tab === 'dues') loadDues();
     }
 
-    function addMedRow(name = '', days = '5 Days', freq = '1-0-1') {
+      function addMedRow(name = '', days = '5 Days', freq = '1-0-1') {
       const box = document.getElementById('medRows');
       const div = document.createElement('div');
       div.className = 'med-card';
       div.innerHTML = `
         <div class="med-grid">
           <input type="text" class="med-name" list="stockMedList" placeholder="दवा का नाम" value="${escapeAttr(name)}" />
-          <input type="text" class="med-days" placeholder="Days (5 Days)" value="${escapeAttr
+          <input type="text" class="med-days" placeholder="Days (5 Days)" value="${escapeAttr(days)}" />
+          <select class="med-freq">
+            <option value="1-0-1" ${freq === '1-0-1' ? 'selected' : ''}>1-0-1 (सुबह-शाम)</option>
+            <option value="1-1-1" ${freq === '1-1-1' ? 'selected' : ''}>1-1-1 (तीन बार)</option>
+            <option value="0-0-1" ${freq === '0-0-1' ? 'selected' : ''}>0-0-1 (रात में)</option>
+            <option value="1-0-0" ${freq === '1-0-0' ? 'selected' : ''}>1-0-0 (सुबह)</option>
+            <option value="SOS" ${freq === 'SOS' ? 'selected' : ''}>SOS (ज़रूरत पर)</option>
+          </select>
+          <button type="button" class="btn sm secondary" onclick="this.closest('.med-card').remove()">✕</button>
+        </div>
+      `;
+      box.appendChild(div);
+    }
+
+    function escapeAttr(s) {
+      return String(s || '').replace(/"/g, '&quot;');
+    }
+
+    function escapeHtml(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    async function apiGet(params) {
+      const url = getScriptUrl();
+      const qs = new URLSearchParams(params).toString();
+      const res = await fetch(`${url}?${qs}`);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || 'API Error');
+      return json.data;
+    }
+
+    async function apiPost(bodyObj) {
+      const url = getScriptUrl();
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(bodyObj)
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || 'POST Error');
+      return json.data;
+    }
+
+    function drawSalesCanvas(items) {
+      const canvas = document.getElementById('salesCanvas');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(300, rect.width || 600);
+      const h = 190;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, w, h);
+
+      const list = (items || []).slice(0, 7).reverse();
+      chartBars = [];
+
+      if (!list.length) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '13px sans-serif';
+        ctx.fillText('No recent daily tally chart data yet.', 18, 95);
+        return;
+      }
+
+      const maxVal = Math.max(...list.map(x => Math.max(x.expectedNetSales || 0, x.cashCollected || 0)), 100);
+      const padL = 14, padR = 14, padT = 20, padB = 30;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+      const slotW = plotW / list.length;
+
+      list.forEach((d, i) => {
+        const net = Number(d.expectedNetSales) || 0;
+        const cash = Number(d.cashCollected) || 0;
+        const barW = Math.min(20, Math.max(8, slotW * 0.28));
+        const cx = padL + i * slotW + slotW / 2;
+
+        const netH = (net / maxVal) * plotH;
+        const cashH = (cash / maxVal) * plotH;
+
+        const netY = padT + plotH - netH;
+        const cashY = padT + plotH - cashH;
+
+        ctx.fillStyle = '#22d3ee';
+        ctx.fillRect(cx - barW - 2, netY, barW, netH);
+
+        ctx.fillStyle = '#34d399';
+        ctx.fillRect(cx + 2, cashY, barW, cashH);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText((d.date || '').slice(5), cx, h - 10);
+
+        chartBars.push({
+          x: cx - slotW / 2,
+          y: padT,
+          w: slotW,
+          h: plotH + padB,
+          item: d
+        });
+      });
+    }
+
+    function handleChartClick(ev) {
+      const rect = ev.target.getBoundingClientRect();
+      const x = ev.clientX - rect.left;
+      const hit = chartBars.find(b => x >= b.x && x <= b.x + b.w);
+      if (hit) {
+        document.getElementById('chartHint').textContent =
+          `${hit.item.date}: Net ${fmtINR(hit.item.expectedNetSales)} | Cash ${fmtINR(hit.item.cashCollected)}`;
+      }
+    }
+
+    async function loadDashboard() {
+      const dateVal = document.getElementById('reportDate').value;
+      document.getElementById('dateBadge').textContent = dateVal || 'Today';
+      try {
+        const data = await apiGet({ action: 'dashboard', date: dateVal });
+        document.getElementById('statTotalSale').textContent = fmtINR(data.totalDailySale);
+        document.getElementById('statCash').textContent = fmtINR(data.totalCashCollection);
+        document.getElementById('statPatients').textContent = data.patientCount;
+        document.getElementById('statOther').textContent = fmtINR(data.totalOtherCollection);
+        document.getElementById('statBilledNet').textContent = fmtINR(data.billedNet);
+        document.getElementById('statDayPending').textContent = fmtINR(data.opdPendingForDate);
+
+        drawSalesCanvas(data.recentCollections || []);
+
+        const pBox = document.getElementById('datePatientsList');
+        if (!data.patients || !data.patients.length) {
+          pBox.innerHTML = '<span style="color:var(--muted); font-size:13px;">इस तारीख की कोई पेशेंट एंट्री नहीं है।</span>';
+        } else {
+          pBox.innerHTML = data.patients.map(p => `
+            <div class="item-row">
+              <div class="row" style="justify-content:space-between;">
+                <strong style="color:var(--cyan);">${escapeHtml(p.patientName)}</strong>
+                <span class="badge ${p.pendingAmount > 0 ? 'badge-due' : 'badge-ok'}">
+                  Paid: ${fmtINR(p.amountPaid)} (${escapeHtml(p.paymentMode)})
+                </span>
+              </div>
+              <div style="color:var(--muted); font-size:12px; margin-top:2px;">
+                Age: ${escapeHtml(p.age || '-')} • Mobile: ${escapeHtml(p.mobile || '-')}
+                ${p.pendingAmount > 0 ? ` • <span style="color:var(--amber); font-weight:700;">Due: ${fmtINR(p.pendingAmount)}</span>` : ''}
+              </div>
+              ${p.diagnosis ? `<div style="margin-top:4px;"><strong>Diagnosis:</strong> ${escapeHtml(p.diagnosis)}</div>` : ''}
+              ${p.medicinesDosage ? `<div style="margin-top:2px; color:var(--emerald);"><strong>Meds:</strong> ${escapeHtml(p.medicinesDosage)}</div>` : ''}
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        showToast('Error: ' + e.message);
+      }
+    }
+
+    async function submitPatient(ev) {
+      ev.preventDefault();
+      const meds = [];
+      document.querySelectorAll('#medRows .med-card').forEach(r => {
+        const name = r.querySelector('.med-name').value.trim();
+        const days = r.querySelector('.med-days').value.trim();
+        const frequency = r.querySelector('.med-freq').value.trim();
+        if (name) meds.push({ name, days, frequency });
+      });
+
+      const entry = {
+        date: document.getElementById('reportDate').value,
+        patientName: document.getElementById('pName').value.trim(),
+        mobile: document.getElementById('pMobile').value.trim(),
+        age: document.getElementById('pAge').value.trim(),
+        gender: document.getElementById('pGender').value,
+        diagnosis: document.getElementById('pDiagnosis').value.trim(),
+        medicines: meds,
+        amountPaid: document.getElementById('pPaid').value,
+        paymentMode: document.getElementById('pMode').value,
+        pendingAmount: document.getElementById('pPending').value
+      };
+
+      try {
+        await apiPost({ action: 'addPatient', entry });
+        showToast('पेशेंट रिकॉर्ड सेव हो गया!');
+        document.getElementById('patientForm').reset();
+        document.getElementById('medRows').innerHTML = '';
+        addMedRow();
+        loadDashboard();
+      } catch (e) {
+        showToast('Save failed: ' + e.message);
+      }
+    }
+
+    async function loadStock() {
+      try {
+        const data = await apiGet({ action: 'stock' });
+        stockCache = data;
+        document.getElementById('stkMrpVal').textContent = fmtINR(data.totalMrpValue);
+        document.getElementById('stkSale10Val').textContent = fmtINR(data.discountedSaleValue10);
+        document.getElementById('stkProfitVal').textContent = fmtINR(data.estimatedProfitAfter10Disc);
+        document.getElementById('stkTotalStrips').textContent = data.totalCurrentStrips;
+        document.getElementById('stkPurchaseVal').textContent = fmtINR(data.totalPurchaseCostValue);
+        document.getElementById('stkSkuCount').textContent = (data.items || []).filter(x => x.currentStock > 0).length;
+
+        const dl = document.getElementById('stockMedList');
+        dl.innerHTML = (data.medicineNames || []).map(n => `<option value="${escapeAttr(n)}"></option>`).join('');
+        renderStockTable();
+      } catch (e) {
+        showToast('Stock Error: ' + e.message);
+      }
+    }
+
+    function renderStockTable() {
+      if (!stockCache) return;
+      const q = (document.getElementById('stockFilter').value || '').trim().toLowerCase();
+      const filtered = (stockCache.items || []).filter(it => !q || it.name.toLowerCase().includes(q));
+      document.getElementById('stockTableBody').innerHTML = filtered.slice(0, 120).map(it => `
+        <tr>
+          <td><strong>${escapeHtml(it.name)}</strong><br><span style="color:var(--muted); font-size:11px;">${escapeHtml(it.batch || '')}</span></td>
+          <td>${it.currentStock}</td>
+          <td>${fmtINR(it.mrpValue)}</td>
+          <td style="color:var(--cyan);">${fmtINR(it.saleValue10)}</td>
+          <td style="color:${it.estimatedProfit >= 0 ? 'var(--emerald)' : 'var(--rose)'}; font-weight:700;">${fmtINR(it.estimatedProfit)}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadDues() {
+      try {
+        const data = await apiGet({ action: 'dues' });
+        document.getElementById('dueReceivablesVal').textContent = fmtINR(data.totalReceivables);
+        document.getElementById('duePayablesVal').textContent = fmtINR(data.totalPayables);
+
+        const rBox = document.getElementById('receivablesList');
+        if (!data.patientReceivables || !data.patientReceivables.length) {
+          rBox.innerHTML = '<span style="color:var(--muted); font-size:13px;">कोई पेशेंट बकाया नहीं है।</span>';
+        } else {
+          rBox.innerHTML = data.patientReceivables.map(r => `
+            <div class="item-row">
+              <div class="row" style="justify-content:space-between;">
+                <div>
+                  <strong>${escapeHtml(r.patientName)}</strong> (${escapeHtml(r.date)})<br>
+                  <span style="font-size:12px; color:var(--muted);">Mobile: ${escapeHtml(r.mobile || '-')} • Due: <strong style="color:var(--amber);">${fmtINR(r.pendingAmount)}</strong></span>
+                </div>
+                <button class="btn sm" onclick="markCleared(${r.rowIndex})">Mark Paid</button>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        const pBox = document.getElementById('payablesList');
+        if (!data.supplierPayables || !data.supplierPayables.length) {
+          pBox.innerHTML = '<span style="color:var(--muted); font-size:13px;">कोई डिस्ट्रीब्यूटर बकाया नहीं मिला।</span>';
+        } else {
+          pBox.innerHTML = data.supplierPayables.map(s => `
+            <div class="item-row">
+              <strong>${escapeHtml(s.distributor || 'Distributor')}</strong> — <span style="color:var(--rose); font-weight:800;">${fmtINR(s.dueAmount)}</span><br>
+              <span style="font-size:12px; color:var(--muted);">Bill: ${escapeHtml(s.invoiceNo || '-')} • ${escapeHtml(s.medicineName || '')} (${s.daysPending} days)</span>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        showToast('Dues Error: ' + e.message);
+      }
+    }
+
+    async function markCleared(rowIndex) {
+      try {
+        await apiPost({ action: 'settlePatientDue', rowIndex });
+        showToast('बकाया क्लियर कर दिया गया');
+        loadDues();
+        loadDashboard();
+      } catch (e) {
+        showToast('Error: ' + e.message);
+      }
+    }
+
+    async function searchHistory() {
+      const q = document.getElementById('historyQuery').value.trim();
+      try {
+        const data = await apiGet({ action: 'history', q });
+        const box = document.getElementById('historyResults');
+        if (!data.records || !data.records.length) {
+          box.innerHTML = '<span style="color:var(--muted); font-size:13px;">कोई रिकॉर्ड नहीं मिला।</span>';
+          return;
+        }
+        box.innerHTML = data.records.map(r => `
+          <div class="item-row">
+            <strong style="color:var(--cyan);">${escapeHtml(r.patientName)}</strong> (${escapeHtml(r.date)}) • Age: ${escapeHtml(r.age || '-')}<br>
+            <span style="font-size:12px; color:var(--muted);">Mobile: ${escapeHtml(r.mobile || '-')} • Paid: ${fmtINR(r.amountPaid)}</span>
+            ${r.diagnosis ? `<div style="margin-top:3px;"><strong>Diagnosis:</strong> ${escapeHtml(r.diagnosis)}</div>` : ''}
+            ${r.medicinesDosage ? `<div style="margin-top:2px; color:var(--emerald);"><strong>Meds:</strong> ${escapeHtml(r.medicinesDosage)}</div>` : ''}
+          </div>
+        `).join('');
+      } catch (e) {
+        showToast('Search Error: ' + e.message);
+      }
+    }
+
+    function refreshAll() {
+      loadDashboard();
+      loadStock();
+      loadDues();
+    }
+
+    setToday();
+    addMedRow();
+    document.getElementById('scriptUrlInput').value = getScriptUrl();
+    refreshAll();
+  </script>
+</body>
+</html>
+
