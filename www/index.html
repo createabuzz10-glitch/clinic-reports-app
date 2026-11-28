@@ -752,29 +752,38 @@
       window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
     }
 
-        async function printReport() {
+            async function printReport() {
       if (typeof html2pdf === 'undefined') return toast('PDF tool load ho raha hai, 2 sec baad try karein');
       const activeTab = ['daily','monthly','stock','dues'].find(k => !document.getElementById('tab-' + k).classList.contains('hidden')) || 'daily';
       const el = document.getElementById('tab-' + activeTab);
       const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#070b14';
+      const fileName = `Mahajan_ENT_${activeTab}_${new Date().toISOString().slice(0,10)}.pdf`;
       toast('PDF ban raha hai...');
       const opt = {
         margin: 6,
-        filename: `Mahajan_ENT_${activeTab}_${new Date().toISOString().slice(0,10)}.pdf`,
+        filename: fileName,
         image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: bg },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       try {
-        const blob = await html2pdf().set(opt).from(el).outputPdf('blob');
-        const file = new File([blob], opt.filename, { type: 'application/pdf' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({ files: [file], title: 'Mahajan ENT Clinic Report' });
+        const cap = window.Capacitor && window.Capacitor.Plugins;
+        if (cap && cap.Filesystem && cap.Share) {
+          const dataUri = await html2pdf().set(opt).from(el).outputPdf('datauristring');
+          const base64Data = dataUri.split(',')[1];
+          const saved = await cap.Filesystem.writeFile({
+            path: fileName,
+            data: base64Data,
+            directory: 'CACHE'
+          });
+          await cap.Share.share({
+            title: 'Mahajan ENT Clinic Report',
+            url: saved.uri,
+            dialogTitle: 'PDF Open ya Share karein'
+          });
         } else {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url; a.download = opt.filename; a.click();
-          toast('PDF save ho gaya!');
+          await html2pdf().set(opt).from(el).save();
+          toast('PDF download ho gaya!');
         }
       } catch (e) {
         if (e.name !== 'AbortError') toast('PDF Error: ' + e.message);
