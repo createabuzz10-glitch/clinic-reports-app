@@ -3,6 +3,7 @@
   "appName": "Mahajan ENT Reports",
   "webDir": "www",
   "server": {
+    "url": "https://createabuzz10-glitch.github.io/clinic-reports-app/www/",
     "androidScheme": "https"
   }
 }
