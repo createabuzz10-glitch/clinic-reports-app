@@ -1,35 +1,116 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="dark-blue">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mahajan ENT Clinic — Reports & OPD</title>
   <style>
     :root {
-      --bg:#070b14; --grid:rgba(56,189,248,0.06); --surface:rgba(15,23,42,0.92);
-      --surface2:rgba(30,41,59,0.82); --border:rgba(148,163,184,0.2);
-      --text:#f8fafc; --muted:#94a3b8; --cyan:#22d3ee; --emerald:#34d399;
-      --purple:#c084fc; --amber:#fbbf24; --rose:#fb7185; --indigo:#818cf8;
+      --bg:#070b14; --grid:rgba(56,189,248,0.06); --surface:rgba(15,23,42,0.94);
+      --surface2:rgba(30,41,59,0.85); --input-bg:rgba(2,6,23,0.75);
+      --header-bg:rgba(9,14,26,0.92); --border:rgba(148,163,184,0.22);
+      --text:#f8fafc; --muted:#94a3b8; --accent:#22d3ee; --accent2:#34d399;
+      --cyan:#22d3ee; --emerald:#34d399; --purple:#c084fc; --amber:#fbbf24;
+      --rose:#fb7185; --indigo:#818cf8; --btn-text:#050811;
+      --glow1:rgba(34,211,238,0.16); --glow2:rgba(192,132,252,0.14);
+      --shadow:0 8px 24px rgba(0,0,0,0.35);
     }
+    /* 6 DARK THEMES */
+    [data-theme="dark-red"] {
+      --bg:#120709; --grid:rgba(244,63,94,0.06); --surface:rgba(28,12,16,0.95);
+      --surface2:rgba(48,18,24,0.85); --input-bg:rgba(18,6,9,0.85); --header-bg:rgba(22,8,12,0.94);
+      --border:rgba(251,113,133,0.24); --accent:#f43f5e; --accent2:#fb7185; --cyan:#fb7185;
+      --glow1:rgba(244,63,94,0.18); --glow2:rgba(251,146,60,0.12); --btn-text:#fff;
+    }
+    [data-theme="dark-green"] {
+      --bg:#06120e; --grid:rgba(16,185,129,0.06); --surface:rgba(12,28,22,0.95);
+      --surface2:rgba(19,44,35,0.85); --input-bg:rgba(5,16,12,0.85); --header-bg:rgba(8,22,17,0.94);
+      --border:rgba(52,211,153,0.24); --accent:#10b981; --accent2:#34d399; --cyan:#34d399;
+      --glow1:rgba(16,185,129,0.18); --glow2:rgba(45,212,191,0.12);
+    }
+    [data-theme="dark-gold"] {
+      --bg:#110e07; --grid:rgba(245,158,11,0.06); --surface:rgba(28,23,12,0.95);
+      --surface2:rgba(46,38,18,0.85); --input-bg:rgba(16,12,5,0.85); --header-bg:rgba(22,18,9,0.94);
+      --border:rgba(251,191,36,0.25); --accent:#f59e0b; --accent2:#fbbf24; --cyan:#fbbf24;
+      --glow1:rgba(245,158,11,0.18); --glow2:rgba(217,119,6,0.12);
+    }
+    [data-theme="dark-purple"] {
+      --bg:#0c0716; --grid:rgba(168,85,247,0.06); --surface:rgba(22,14,38,0.95);
+      --surface2:rgba(37,24,62,0.85); --input-bg:rgba(12,7,24,0.85); --header-bg:rgba(17,10,30,0.94);
+      --border:rgba(192,132,252,0.25); --accent:#a855f7; --accent2:#c084fc; --cyan:#c084fc;
+      --glow1:rgba(168,85,247,0.18); --glow2:rgba(99,102,241,0.14); --btn-text:#fff;
+    }
+    [data-theme="dark-amoled"] {
+      --bg:#000000; --grid:rgba(20,184,166,0.06); --surface:rgba(10,12,15,0.97);
+      --surface2:rgba(20,24,29,0.9); --input-bg:#050608; --header-bg:rgba(0,0,0,0.95);
+      --border:rgba(148,163,184,0.2); --accent:#14b8a6; --accent2:#2dd4bf; --cyan:#2dd4bf;
+      --glow1:rgba(20,184,166,0.12); --glow2:rgba(56,189,248,0.08);
+    }
+    /* 6 LIGHT THEMES */
+    [data-theme^="light-"] {
+      --text:#0f172a; --muted:#475569; --input-bg:#ffffff; --btn-text:#ffffff;
+      --emerald:#059669; --purple:#7c3aed; --amber:#d97706; --rose:#e11d48; --indigo:#4f46e5;
+      --shadow:0 6px 20px rgba(15,23,42,0.08);
+    }
+    [data-theme="light-red"] {
+      --bg:#fff5f6; --grid:rgba(225,29,72,0.05); --surface:#ffffff; --surface2:#fff1f2;
+      --header-bg:rgba(255,255,255,0.94); --border:rgba(225,29,72,0.18);
+      --accent:#dc2626; --accent2:#e11d48; --cyan:#dc2626;
+      --glow1:rgba(225,29,72,0.12); --glow2:rgba(251,113,133,0.1);
+    }
+    [data-theme="light-blue"] {
+      --bg:#f0f7ff; --grid:rgba(2,132,199,0.05); --surface:#ffffff; --surface2:#f0f9ff;
+      --header-bg:rgba(255,255,255,0.94); --border:rgba(2,132,199,0.18);
+      --accent:#0284c7; --accent2:#2563eb; --cyan:#0284c7;
+      --glow1:rgba(14,165,233,0.12); --glow2:rgba(99,102,241,0.1);
+    }
+    [data-theme="light-green"] {
+      --bg:#f0fdf7; --grid:rgba(5,150,105,0.05); --surface:#ffffff; --surface2:#ecfdf5;
+      --header-bg:rgba(255,255,255,0.94); --border:rgba(5,150,105,0.18);
+      --accent:#059669; --accent2:#10b981; --cyan:#059669;
+      --glow1:rgba(16,185,129,0.12); --glow2:rgba(20,184,166,0.1);
+    }
+    [data-theme="light-gold"] {
+      --bg:#fdfaf2; --grid:rgba(180,83,9,0.05); --surface:#ffffff; --surface2:#fef9e7;
+      --header-bg:rgba(255,252,245,0.95); --border:rgba(180,83,9,0.2);
+      --accent:#b45309; --accent2:#d97706; --cyan:#b45309;
+      --glow1:rgba(245,158,11,0.14); --glow2:rgba(217,119,6,0.09);
+    }
+    [data-theme="light-purple"] {
+      --bg:#f8f5ff; --grid:rgba(124,58,237,0.05); --surface:#ffffff; --surface2:#f5f3ff;
+      --header-bg:rgba(255,255,255,0.94); --border:rgba(124,58,237,0.18);
+      --accent:#7c3aed; --accent2:#9333ea; --cyan:#7c3aed;
+      --glow1:rgba(139,92,246,0.12); --glow2:rgba(192,132,252,0.1);
+    }
+    [data-theme="light-teal"] {
+      --bg:#f2fbfb; --grid:rgba(13,148,136,0.05); --surface:#ffffff; --surface2:#f0fdfa;
+      --header-bg:rgba(255,255,255,0.94); --border:rgba(13,148,136,0.18);
+      --accent:#0d9488; --accent2:#0891b2; --cyan:#0d9488;
+      --glow1:rgba(20,184,166,0.12); --glow2:rgba(6,182,212,0.1);
+    }
+
     * { box-sizing:border-box; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; }
     body {
       margin:0; color:var(--text); background-color:var(--bg);
       background-image:
-        radial-gradient(circle at 12% 10%, rgba(34,211,238,0.16), transparent 36%),
-        radial-gradient(circle at 88% 14%, rgba(192,132,252,0.16), transparent 38%),
+        radial-gradient(circle at 12% 10%, var(--glow1), transparent 36%),
+        radial-gradient(circle at 88% 14%, var(--glow2), transparent 38%),
         linear-gradient(to right, var(--grid) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
       background-size:100% 100%, 100% 100%, 26px 26px, 26px 26px;
-      padding-bottom:84px; min-height:100vh;
+      padding-bottom:86px; min-height:100vh; transition:background-color .25s, color .25s;
     }
-    header { position:sticky; top:0; z-index:30; backdrop-filter:blur(14px); background:rgba(9,14,26,0.88); border-bottom:1px solid var(--border); padding:12px 14px; display:flex; justify-content:space-between; align-items:center; }
-    .brand { margin:0; font-size:17px; font-weight:800; background:linear-gradient(90deg,var(--cyan),var(--purple),var(--emerald)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .sub { margin:2px 0 0; font-size:11px; color:var(--muted); }
+    .offline-bar { display:none; background:#e11d48; color:#fff; text-align:center; padding:6px 10px; font-size:12px; font-weight:700; position:sticky; top:0; z-index:50; }
+    .offline-bar.show { display:block; }
+    header { position:sticky; top:0; z-index:30; backdrop-filter:blur(14px); background:var(--header-bg); border-bottom:1px solid var(--border); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    .brand { margin:0; font-size:17px; font-weight:800; background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .sub { margin:2px 0 0; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+    .upd-tag { font-size:10px; padding:1px 7px; border-radius:999px; background:var(--surface2); border:1px solid var(--border); color:var(--accent); font-weight:700; }
     .container { max-width:960px; margin:12px auto; padding:0 10px; }
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:13px; margin-bottom:12px; box-shadow:0 8px 24px rgba(0,0,0,0.35); }
-    .head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:13px; margin-bottom:12px; box-shadow:var(--shadow); }
+    .head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
     .title { margin:0; font-size:15px; font-weight:700; }
-    .pill { font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; background:rgba(34,211,238,0.14); color:var(--cyan); border:1px solid rgba(34,211,238,0.3); }
+    .pill { font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; background:var(--surface2); color:var(--accent); border:1px solid var(--border); }
     .kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
     .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
     @media (max-width:600px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } }
@@ -40,64 +121,117 @@
     .kpi.rose::before { background:var(--rose); } .kpi.indigo::before { background:var(--indigo); }
     .kpi-l { font-size:11px; color:var(--muted); font-weight:600; }
     .kpi-v { font-size:17px; font-weight:800; margin-top:4px; }
+    .kpi-sub { font-size:10px; font-weight:700; margin-top:3px; color:var(--muted); }
     .kpi.cyan .kpi-v { color:var(--cyan); } .kpi.emerald .kpi-v { color:var(--emerald); }
     .kpi.purple .kpi-v { color:var(--purple); } .kpi.amber .kpi-v { color:var(--amber); }
     .kpi.rose .kpi-v { color:var(--rose); } .kpi.indigo .kpi-v { color:var(--indigo); }
+    .split-bar { height:10px; border-radius:999px; overflow:hidden; display:flex; background:var(--surface2); border:1px solid var(--border); margin:8px 0 4px; }
+    .split-cash { background:var(--emerald); height:100%; transition:width .4s; }
+    .split-upi { background:var(--indigo); height:100%; transition:width .4s; }
+    .split-meta { display:flex; justify-content:space-between; font-size:11px; font-weight:700; color:var(--muted); }
+    .cmp-box { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:9px 11px; margin-top:10px; font-size:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
+    .badge-up { color:var(--emerald); font-weight:800; } .badge-down { color:var(--rose); font-weight:800; }
     label { display:block; font-size:11px; color:var(--muted); margin-bottom:3px; font-weight:600; }
-    input, select, textarea { width:100%; padding:8px 10px; border-radius:9px; border:1px solid rgba(148,163,184,0.25); background:rgba(2,6,23,0.75); color:var(--text); font-size:13px; }
+    input, select, textarea { width:100%; padding:8px 10px; border-radius:9px; border:1px solid var(--border); background:var(--input-bg); color:var(--text); font-size:13px; }
     textarea { min-height:56px; resize:vertical; }
-    .btn { border:none; border-radius:9px; padding:8px 12px; font-size:13px; font-weight:700; cursor:pointer; color:#050811; background:linear-gradient(135deg,var(--cyan),var(--emerald)); }
+    .btn { border:none; border-radius:9px; padding:8px 12px; font-size:13px; font-weight:700; cursor:pointer; color:var(--btn-text); background:linear-gradient(135deg,var(--accent),var(--accent2)); }
     .btn.sec { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
     .btn.pur { background:linear-gradient(135deg,var(--purple),var(--indigo)); color:#fff; }
+    .btn.wa { background:#16a34a; color:#fff; }
+    .btn.pdf { background:#e11d48; color:#fff; }
     .btn.sm { padding:6px 10px; font-size:12px; }
     .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-    .med-card { background:rgba(2,6,23,0.65); border:1px solid var(--border); border-radius:10px; padding:8px; margin-bottom:8px; }
+    .med-card { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:8px; margin-bottom:8px; }
     .med-grid { display:grid; grid-template-columns:1.8fr 0.9fr 1.1fr 1.2fr auto; gap:6px; align-items:center; }
     @media (max-width:640px) { .med-grid { grid-template-columns:1fr 1fr; } }
-    .pay-box { background:rgba(2,6,23,0.55); border:1px solid var(--border); border-radius:12px; padding:10px; margin-top:8px; }
+    .pay-box { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:10px; margin-top:8px; }
     .item { padding:9px 0; border-bottom:1px solid var(--border); font-size:13px; }
     .item:last-child { border-bottom:none; }
+    .top-bar-wrap { height:6px; background:var(--surface2); border-radius:99px; overflow:hidden; margin-top:4px; }
+    .top-bar-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--emerald)); border-radius:99px; }
     table { width:100%; border-collapse:collapse; font-size:12px; }
     th, td { text-align:left; padding:7px 5px; border-bottom:1px solid var(--border); }
-    th { color:var(--cyan); background:rgba(2,6,23,0.6); }
-    canvas.chart { width:100%; height:165px; display:block; border-radius:10px; background:rgba(2,6,23,0.65); border:1px solid var(--border); }
-    .nav { position:fixed; bottom:0; left:0; right:0; z-index:30; backdrop-filter:blur(14px); background:rgba(9,14,26,0.94); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(4,1fr); padding:6px; gap:4px; }
+    th { color:var(--accent); background:var(--surface2); }
+    canvas.chart { width:100%; height:165px; display:block; border-radius:10px; background:var(--surface2); border:1px solid var(--border); }
+    .nav { position:fixed; bottom:0; left:0; right:0; z-index:30; backdrop-filter:blur(14px); background:var(--header-bg); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(4,1fr); padding:6px; gap:4px; }
     .nav-btn { background:transparent; color:var(--muted); border:1px solid transparent; border-radius:10px; padding:7px 4px; font-size:11px; font-weight:700; cursor:pointer; }
-    .nav-btn.active { color:var(--text); background:rgba(34,211,238,0.15); border-color:rgba(34,211,238,0.35); }
-    .hidden { display:none; }
-    .toast { position:fixed; bottom:76px; left:50%; transform:translateX(-50%); background:#0f172a; color:var(--cyan); border:1px solid var(--cyan); padding:7px 14px; border-radius:999px; font-size:12px; font-weight:700; z-index:60; display:none; }
+    .nav-btn.active { color:var(--accent); background:var(--surface2); border-color:var(--border); }
+    .hidden { display:none !important; }
+    .toast { position:fixed; bottom:76px; left:50%; transform:translateX(-50%); background:var(--surface); color:var(--accent); border:1px solid var(--accent); padding:7px 14px; border-radius:999px; font-size:12px; font-weight:700; z-index:60; display:none; box-shadow:var(--shadow); }
+    /* Theme Modal */
+    .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.62); z-index:70; display:none; align-items:flex-end; justify-content:center; padding:12px; }
+    .modal-bg.open { display:flex; }
+    .modal { width:100%; max-width:520px; background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:14px; max-height:82vh; overflow-y:auto; box-shadow:0 16px 40px rgba(0,0,0,0.45); }
+    .theme-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:8px; }
+    .t-chip { display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:11px; border:1px solid var(--border); background:var(--surface2); color:var(--text); cursor:pointer; font-size:12px; font-weight:700; text-align:left; }
+    .t-chip.active { border:2px solid var(--accent); }
+    .t-dot { width:18px; height:18px; border-radius:50%; flex-shrink:0; border:2px solid rgba(255,255,255,0.4); }
+    /* Print / PDF */
+    @media print {
+      header, .nav, .toast, .modal-bg, .offline-bar, .no-print, #patientForm { display:none !important; }
+      body { background:#fff !important; color:#000 !important; padding:0 !important; }
+      .card { box-shadow:none !important; border:1px solid #cbd5e1 !important; break-inside:avoid; background:#fff !important; }
+      .kpi { border:1px solid #cbd5e1 !important; background:#f8fafc !important; }
+      .kpi-v, th, td, .title { color:#0f172a !important; }
+    }
   </style>
 </head>
 <body>
+  <div id="offlineBar" class="offline-bar">⚠️ Internet band hai (Offline) — Live data load nahi hoga</div>
+
   <header>
-    <div><h1 class="brand">Mahajan ENT Clinic</h1><p class="sub">Daily Report • OPD • Monthly • Live Stock & MR</p></div>
-    <button class="btn sm sec" onclick="refreshAll()">↻ Refresh</button>
+    <div>
+      <h1 class="brand">Mahajan ENT Clinic</h1>
+      <div class="sub">
+        <span>Reports • OPD • Stock & MR</span>
+        <span class="upd-tag" id="lastUpdated">Updated: --</span>
+      </div>
+    </div>
+    <div class="row no-print" style="gap:6px;">
+      <button class="btn sm sec" onclick="toggleQuickMode()" id="modeBtn" title="Light/Dark">🌓</button>
+      <button class="btn sm sec" onclick="openThemeModal()" title="12 Themes">🎨</button>
+      <button class="btn sm sec" onclick="refreshAll()" id="refreshBtn">↻</button>
+    </div>
   </header>
 
   <div class="container">
     <!-- TAB 1: DAILY & OPD -->
     <section id="tab-daily">
       <div class="card">
-        <div class="row" style="justify-content:space-between; margin-bottom:10px;">
-          <div style="flex:1; min-width:150px;"><label>तारीख चुनें (Daily Report)</label><input type="date" id="reportDate" onchange="loadDashboard()" /></div>
-          <div class="row" style="padding-top:14px;">
+        <div class="row no-print" style="justify-content:space-between; margin-bottom:10px;">
+          <div style="flex:1; min-width:140px;"><label>तारीख चुनें (Daily Report)</label><input type="date" id="reportDate" onchange="loadDashboard()" /></div>
+          <div class="row" style="padding-top:14px; gap:6px;">
             <button class="btn sm sec" onclick="setToday(); loadDashboard();">आज</button>
             <button class="btn sm" onclick="loadDashboard()">देखें</button>
+            <button class="btn sm wa" onclick="shareDailyWA()">📲 WA</button>
+            <button class="btn sm pdf" onclick="printReport()">🖨️ PDF</button>
           </div>
         </div>
         <div class="kpi-grid">
           <div class="kpi cyan"><div class="kpi-l">Total Daily Sale</div><div class="kpi-v" id="sTotal">₹0</div></div>
           <div class="kpi emerald"><div class="kpi-l">Medicine Cash Only</div><div class="kpi-v" id="sMedCash">₹0</div></div>
           <div class="kpi purple"><div class="kpi-l">Consultation Fee</div><div class="kpi-v" id="sConsult">₹0</div></div>
-          <div class="kpi indigo"><div class="kpi-l">Total Cash (All)</div><div class="kpi-v" id="sAllCash">₹0</div></div>
-          <div class="kpi emerald"><div class="kpi-l">Online / UPI</div><div class="kpi-v" id="sOnline">₹0</div></div>
+          <div class="kpi emerald"><div class="kpi-l">Total Cash (All)</div><div class="kpi-v" id="sAllCash">₹0</div></div>
+          <div class="kpi indigo"><div class="kpi-l">Online / UPI</div><div class="kpi-v" id="sOnline">₹0</div></div>
           <div class="kpi amber"><div class="kpi-l">Patients Visited</div><div class="kpi-v" id="sPatCount">0</div></div>
+        </div>
+        <div style="margin-top:10px;">
+          <div class="split-meta">
+            <span style="color:var(--emerald);" id="dSplitCash">Cash: ₹0 (0%)</span>
+            <span style="color:var(--indigo);" id="dSplitUpi">Online/UPI: ₹0 (0%)</span>
+          </div>
+          <div class="split-bar"><div class="split-cash" id="dBarCash" style="width:50%"></div><div class="split-upi" id="dBarUpi" style="width:50%"></div></div>
         </div>
       </div>
 
       <div class="card">
+        <div class="head"><h3 class="title">🏆 Top-Selling Medicines (आज)</h3><span class="pill">Top 5</span></div>
+        <div id="topSoldList"><span style="color:var(--muted);font-size:12px;">लोड हो रहा है...</span></div>
+      </div>
+
+      <div class="card">
         <div class="head"><h3 class="title">आज बिकी हुई दवाइयां (Daily Sales Sheet)</h3><span class="pill" id="soldCountPill">0 items</span></div>
-        <input type="text" id="soldFilter" oninput="renderSoldMeds()" placeholder="दवा का नाम खोजें..." style="margin-bottom:8px;" />
+        <input type="text" id="soldFilter" class="no-print" oninput="renderSoldMeds()" placeholder="दवा का नाम खोजें..." style="margin-bottom:8px;" />
         <div style="overflow-x:auto;"><table><thead><tr><th>Medicine</th><th>Qty</th><th>MRP Val</th><th>10% Sale</th></tr></thead><tbody id="soldMedsBody"></tbody></table></div>
       </div>
 
@@ -106,11 +240,11 @@
         <canvas id="salesCanvas" class="chart" height="165" onclick="handleChartClick(event)"></canvas>
       </div>
 
-      <div class="card">
+      <div class="card no-print">
         <div class="head"><h3 class="title">नया पेशेंट रिकॉर्ड (OPD + Medicine)</h3><span class="pill">Patient_Register</span></div>
         <form id="patientForm" onsubmit="submitPatient(event)">
           <div style="margin-bottom:8px;">
-            <label style="color:var(--cyan);">Doctor Name (किस डॉक्टर ने देखा) *</label>
+            <label style="color:var(--accent);">Doctor Name (किस डॉक्टर ने देखा) *</label>
             <select id="pDoctor"><option value="Dr. Gaurav Mahajan">Dr. Gaurav Mahajan</option><option value="Dr. Jasjyot Kaur">Dr. Jasjyot Kaur</option></select>
           </div>
           <div class="grid-2">
@@ -149,6 +283,7 @@
 
       <div class="card">
         <div class="head"><h3 class="title">इस तारीख के पेशेंट्स</h3><span class="pill" id="dateBadge">Today</span></div>
+        <input type="text" id="patFilter" class="no-print" oninput="renderDatePatients()" placeholder="पेशेंट या डॉक्टर खोजें..." style="margin-bottom:8px;" />
         <div id="datePatientsList"></div>
       </div>
     </section>
@@ -156,18 +291,32 @@
     <!-- TAB 2: MONTHLY -->
     <section id="tab-monthly" class="hidden">
       <div class="card">
-        <div class="row" style="justify-content:space-between; margin-bottom:10px;">
-          <div style="flex:1; min-width:160px;"><label>महीना चुनें (Monthly Report)</label><input type="month" id="reportMonth" onchange="loadMonthly()" /></div>
-          <div style="padding-top:14px;"><button class="btn sm" onclick="loadMonthly()">देखें</button></div>
+        <div class="row no-print" style="justify-content:space-between; margin-bottom:10px;">
+          <div style="flex:1; min-width:140px;"><label>महीना चुनें (Monthly Report)</label><input type="month" id="reportMonth" onchange="loadMonthly()" /></div>
+          <div class="row" style="padding-top:14px; gap:6px;">
+            <button class="btn sm" onclick="loadMonthly()">देखें</button>
+            <button class="btn sm wa" onclick="shareMonthlyWA()">📲 WA</button>
+            <button class="btn sm pdf" onclick="printReport()">🖨️ PDF</button>
+          </div>
         </div>
         <div class="kpi-grid">
-          <div class="kpi purple"><div class="kpi-l">Total Consultation</div><div class="kpi-v" id="mConsult">₹0</div></div>
-          <div class="kpi cyan"><div class="kpi-l">Total Medicine</div><div class="kpi-v" id="mMeds">₹0</div></div>
+          <div class="kpi purple"><div class="kpi-l">Total Consultation</div><div class="kpi-v" id="mConsult">₹0</div><div class="kpi-sub" id="mConsultCmp"></div></div>
+          <div class="kpi cyan"><div class="kpi-l">Total Medicine</div><div class="kpi-v" id="mMeds">₹0</div><div class="kpi-sub" id="mMedsCmp"></div></div>
           <div class="kpi emerald"><div class="kpi-l">Total Cash</div><div class="kpi-v" id="mCash">₹0</div></div>
           <div class="kpi indigo"><div class="kpi-l">Total Online/UPI</div><div class="kpi-v" id="mOnline">₹0</div></div>
-          <div class="kpi amber"><div class="kpi-l">Total Patients</div><div class="kpi-v" id="mPatients">0</div></div>
+          <div class="kpi amber"><div class="kpi-l">Total Patients</div><div class="kpi-v" id="mPatients">0</div><div class="kpi-sub" id="mPatCmp"></div></div>
+          <div class="kpi rose"><div class="kpi-l">Grand Collection</div><div class="kpi-v" id="mGrand">₹0</div><div class="kpi-sub" id="mGrandCmp"></div></div>
         </div>
+        <div style="margin-top:10px;">
+          <div class="split-meta">
+            <span style="color:var(--emerald);" id="mSplitCash">Cash: ₹0 (0%)</span>
+            <span style="color:var(--indigo);" id="mSplitUpi">Online/UPI: ₹0 (0%)</span>
+          </div>
+          <div class="split-bar"><div class="split-cash" id="mBarCash" style="width:50%"></div><div class="split-upi" id="mBarUpi" style="width:50%"></div></div>
+        </div>
+        <div class="cmp-box" id="prevMonthCmpBox"><span>पिछले महीने से तुलना (vs Prev Month):</span><strong id="prevMonthCmpText">--</strong></div>
       </div>
+
       <div class="card">
         <div class="head"><h3 class="title">Doctor-Wise Monthly Report</h3><span class="pill">Dr. Gaurav • Dr. Jasjyot</span></div>
         <div style="overflow-x:auto;"><table><thead><tr><th>Doctor</th><th>Pts</th><th>Cons Cash</th><th>Cons UPI</th><th>Med Cash</th><th>Med UPI</th><th>Total</th></tr></thead><tbody id="monthlyDocBody"></tbody></table></div>
@@ -176,12 +325,16 @@
         <div class="head"><h3 class="title">Account-Wise Collection</h3><span class="pill">Cash • Ajay • Jasjyot • HUF</span></div>
         <div style="overflow-x:auto;"><table><thead><tr><th>Account</th><th>Consult</th><th>Med</th><th>Cash</th><th>UPI</th><th>Total</th></tr></thead><tbody id="monthlyAccBody"></tbody></table></div>
       </div>
+      <div class="card" id="monthlyTopMedsCard">
+        <div class="head"><h3 class="title">🏆 Top-Selling Medicines</h3><span class="pill" id="mTopMedsPill">Monthly / Recent</span></div>
+        <div id="monthlyTopMedsList"></div>
+      </div>
     </section>
 
     <!-- TAB 3: STOCK -->
     <section id="tab-stock" class="hidden">
       <div class="card">
-        <div class="head"><h3 class="title">Live Stock & 10% Discount Profit</h3><span class="pill">MRP → 10% Off → Profit</span></div>
+        <div class="head"><h3 class="title">Live Stock & 10% Discount Profit</h3><button class="btn sm pdf no-print" onclick="printReport()">🖨️ PDF</button></div>
         <div class="kpi-grid">
           <div class="kpi cyan"><div class="kpi-l">Stock MRP Value</div><div class="kpi-v" id="stkMrp">₹0</div></div>
           <div class="kpi emerald"><div class="kpi-l">10% Off Sale</div><div class="kpi-v" id="stkSale10">₹0</div></div>
@@ -190,7 +343,7 @@
       </div>
       <div class="card">
         <label>दवा खोजें</label>
-        <input type="text" id="stockFilter" oninput="renderStockTable()" placeholder="दवा का नाम टाइप करें..." />
+        <input type="text" id="stockFilter" class="no-print" oninput="renderStockTable()" placeholder="दवा का नाम टाइप करें..." />
         <div style="overflow-x:auto; margin-top:8px;"><table><thead><tr><th>Medicine</th><th>Stock</th><th>MRP</th><th>10% Off</th><th>Cost</th><th>Net Profit</th></tr></thead><tbody id="stockTableBody"></tbody></table></div>
       </div>
     </section>
@@ -198,23 +351,49 @@
     <!-- TAB 4: DUES, MR & HISTORY -->
     <section id="tab-dues" class="hidden">
       <div class="card">
+        <div class="head"><h3 class="title">MR Dues Summary</h3><button class="btn sm pdf no-print" onclick="printReport()">🖨️ PDF</button></div>
         <div class="grid-2">
           <div class="kpi rose"><div class="kpi-l">Total Unpaid (Stock In Log)</div><div class="kpi-v" id="dueUnpaid">₹0</div></div>
           <div class="kpi cyan"><div class="kpi-l">Total Stock In (All MRs)</div><div class="kpi-v" id="dueTotalAll">₹0</div></div>
         </div>
       </div>
-      <div class="card"><div class="head"><h3 class="title">Unpaid / Pending Bills (Live)</h3><span class="pill" id="unpaidCount">0</span></div><div id="unpaidBillsList"></div></div>
+
+      <div class="card">
+        <div class="head"><h3 class="title">Unpaid / Pending Bills (Live)</h3><span class="pill" id="unpaidCount">0</span></div>
+        <div class="no-print" style="margin-bottom:8px;">
+          <input type="text" id="unpaidSearch" oninput="renderUnpaidBills()" placeholder="MR का नाम, बिल नंबर या दवा खोजें..." style="margin-bottom:6px;" />
+          <div class="grid-2">
+            <div><label>From Date</label><input type="date" id="unpaidFrom" onchange="renderUnpaidBills()" /></div>
+            <div><label>To Date</label><input type="date" id="unpaidTo" onchange="renderUnpaidBills()" /></div>
+          </div>
+          <div style="margin-top:6px; text-align:right;"><button class="btn sm sec" onclick="clearUnpaidFilters()">Clear Filter</button></div>
+        </div>
+        <div id="unpaidBillsList"></div>
+      </div>
+
       <div class="card">
         <div class="head"><h3 class="title">MR-Wise Total & Medicines</h3><span class="pill">Stock In Log</span></div>
-        <input type="text" id="mrFilter" oninput="renderMRList()" placeholder="MR या कंपनी का नाम खोजें..." style="margin-bottom:8px;" />
+        <input type="text" id="mrFilter" class="no-print" oninput="renderMRList()" placeholder="MR या कंपनी का नाम खोजें..." style="margin-bottom:8px;" />
         <div id="mrSummaryList"></div>
       </div>
-      <div class="card">
+
+      <div class="card no-print">
         <h3 class="title" style="margin-bottom:8px;">Search Past Patient History</h3>
         <div class="row"><input type="text" id="historyQuery" placeholder="नाम, मोबाइल, डॉक्टर या डायग्नोसिस..." style="flex:1;" /><button class="btn sm pur" onclick="searchHistory()">Search</button></div>
         <div id="historyResults" style="margin-top:8px;"></div>
       </div>
     </section>
+  </div>
+
+  <!-- THEME PICKER MODAL (12 THEMES) -->
+  <div id="themeModal" class="modal-bg" onclick="if(event.target===this) closeThemeModal()">
+    <div class="modal">
+      <div class="head"><h3 class="title">🎨 App Theme चुनें (12 Themes)</h3><button class="btn sm sec" onclick="closeThemeModal()">✕</button></div>
+      <label style="margin-top:4px;">☀️ Light Mode Themes (6)</label>
+      <div class="theme-grid" id="lightThemesGrid"></div>
+      <label style="margin-top:12px;">🌙 Dark Mode Themes (6)</label>
+      <div class="theme-grid" id="darkThemesGrid"></div>
+    </div>
   </div>
 
   <div class="toast" id="toast"></div>
@@ -226,11 +405,91 @@
   </nav>
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbz-cDjSvaaIIrR-m2kAfcP5HRDT50adz5rXZagDfTno8pQW6Nu3D0HN7Lr3M9SRyEU/exec';
-    let stockCache = null, soldMedsCache = [], mrCache = [], chartBars = [];
+    let stockCache = null, soldMedsCache = [], mrCache = [], unpaidCache = [], datePatientsCache = [];
+    let dailyCache = null, monthlyCache = null, prevMonthlyCache = null, chartBars = [], recentChartItems = [];
+
+    const THEMES = {
+      light: [
+        { id:'light-red', name:'Clinic Red', color:'#dc2626' },
+        { id:'light-blue', name:'Medical Blue', color:'#0284c7' },
+        { id:'light-green', name:'Emerald Green', color:'#059669' },
+        { id:'light-gold', name:'Warm Gold', color:'#d97706' },
+        { id:'light-purple', name:'Royal Purple', color:'#7c3aed' },
+        { id:'light-teal', name:'Teal Slate', color:'#0d9488' }
+      ],
+      dark: [
+        { id:'dark-red', name:'Crimson Dark', color:'#f43f5e' },
+        { id:'dark-blue', name:'Midnight Blue', color:'#22d3ee' },
+        { id:'dark-green', name:'Forest Dark', color:'#10b981' },
+        { id:'dark-gold', name:'Luxury Gold', color:'#f59e0b' },
+        { id:'dark-purple', name:'Violet Dark', color:'#a855f7' },
+        { id:'dark-amoled', name:'AMOLED Black', color:'#14b8a6' }
+      ]
+    };
+
+    function applyTheme(id) {
+      document.documentElement.setAttribute('data-theme', id);
+      localStorage.setItem('clinic_theme', id);
+      document.getElementById('modeBtn').textContent = id.startsWith('light-') ? '🌙' : '☀️';
+      renderThemePicker();
+      if (recentChartItems.length) drawChart(recentChartItems);
+    }
+
+    function toggleQuickMode() {
+      const cur = document.documentElement.getAttribute('data-theme') || 'dark-blue';
+      const next = cur.startsWith('light-') ? cur.replace('light-', 'dark-') : cur.replace('dark-', 'light-');
+      const allIds = [...THEMES.light, ...THEMES.dark].map(t => t.id);
+      applyTheme(allIds.includes(next) ? next : (cur.startsWith('light-') ? 'dark-blue' : 'light-red'));
+    }
+
+    function renderThemePicker() {
+      const cur = document.documentElement.getAttribute('data-theme') || 'dark-blue';
+      const mk = list => list.map(t => `<button class="t-chip ${cur === t.id ? 'active' : ''}" onclick="applyTheme('${t.id}')"><span class="t-dot" style="background:${t.color};"></span>${t.name}</button>`).join('');
+      document.getElementById('lightThemesGrid').innerHTML = mk(THEMES.light);
+      document.getElementById('darkThemesGrid').innerHTML = mk(THEMES.dark);
+    }
+    function openThemeModal() { renderThemePicker(); document.getElementById('themeModal').classList.add('open'); }
+    function closeThemeModal() { document.getElementById('themeModal').classList.remove('open'); }
+
+    function updateOnlineStatus() {
+      document.getElementById('offlineBar').classList.toggle('show', !navigator.onLine);
+    }
+    window.addEventListener('online', () => { updateOnlineStatus(); toast('Internet wapas aa gaya! Refreshing...'); refreshAll(); });
+    window.addEventListener('offline', () => { updateOnlineStatus(); toast('Offline: Internet check karein'); });
+
+    function markUpdated() {
+      const t = new Date().toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', hour12:true });
+      document.getElementById('lastUpdated').textContent = 'Updated: ' + t;
+    }
 
     function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.style.display = 'block'; clearTimeout(window._tt); window._tt = setTimeout(() => { el.style.display = 'none'; }, 2600); }
     function inr(n) { return '₹' + (Number(n) || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 }); }
     function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function setSplitBar(prefix, cash, upi) {
+      const c = Number(cash) || 0, u = Number(upi) || 0, tot = c + u;
+      const cp = tot > 0 ? Math.round((c / tot) * 100) : 0;
+      const up = tot > 0 ? (100 - cp) : 0;
+      document.getElementById(prefix + 'SplitCash').textContent = `Cash: ${inr(c)} (${cp}%)`;
+      document.getElementById(prefix + 'SplitUpi').textContent = `Online/UPI: ${inr(u)} (${up}%)`;
+      document.getElementById(prefix + 'BarCash').style.width = (tot > 0 ? cp : 50) + '%';
+      document.getElementById(prefix + 'BarUpi').style.width = (tot > 0 ? up : 50) + '%';
+    }
+
+    function pctBadge(cur, prev) {
+      const c = Number(cur) || 0, p = Number(prev) || 0;
+      if (p <= 0) return c > 0 ? '<span class="badge-up">▲ New</span>' : '<span style="color:var(--muted);">—</span>';
+      const diff = ((c - p) / p) * 100;
+      const sign = diff >= 0 ? '▲ +' : '▼ ';
+      return `<span class="${diff >= 0 ? 'badge-up' : 'badge-down'}">${sign}${diff.toFixed(1)}%</span>`;
+    }
+
+    function getPrevMonthStr(ym) {
+      const [y, m] = (ym || '').split('-').map(Number);
+      if (!y || !m) return '';
+      const d = new Date(y, m - 2, 1);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    }
 
     function setToday() {
       const d = new Date(), y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
@@ -270,24 +529,44 @@
       box.appendChild(div);
     }
 
-    async function apiGet(params) { const r = await fetch(`${API_URL}?${new URLSearchParams(params)}`); const j = await r.json(); if (!j.ok) throw new Error(j.error || 'Error'); return j.data; }
-    async function apiPost(body) { const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }); const j = await r.json(); if (!j.ok) throw new Error(j.error || 'POST Error'); return j.data; }
+    async function apiGet(params) {
+      if (!navigator.onLine) throw new Error('No Internet Connection');
+      const r = await fetch(`${API_URL}?${new URLSearchParams(params)}`);
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || 'Error');
+      markUpdated();
+      return j.data;
+    }
+    async function apiPost(body) {
+      if (!navigator.onLine) throw new Error('No Internet Connection');
+      const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || 'POST Error');
+      markUpdated();
+      return j.data;
+    }
 
     function drawChart(items) {
+      recentChartItems = items || [];
       const c = document.getElementById('salesCanvas'), dpr = window.devicePixelRatio || 1;
       const w = Math.max(300, c.getBoundingClientRect().width || 500), h = 165;
       c.width = w * dpr; c.height = h * dpr;
       const ctx = c.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
-      const list = (items || []).slice(0, 7).reverse(); chartBars = [];
-      if (!list.length) { ctx.fillStyle = '#94a3b8'; ctx.fillText('No chart data', 16, 82); return; }
+      const cs = getComputedStyle(document.documentElement);
+      const colAccent = cs.getPropertyValue('--accent').trim() || '#22d3ee';
+      const colGreen = cs.getPropertyValue('--emerald').trim() || '#34d399';
+      const colMuted = cs.getPropertyValue('--muted').trim() || '#94a3b8';
+
+      const list = recentChartItems.slice(0, 7).reverse(); chartBars = [];
+      if (!list.length) { ctx.fillStyle = colMuted; ctx.fillText('No chart data', 16, 82); return; }
       const maxV = Math.max(...list.map(x => Math.max(x.expectedNetSales || 0, x.cashCollected || 0)), 100);
       const slotW = (w - 24) / list.length;
       list.forEach((d, i) => {
         const cx = 12 + i * slotW + slotW / 2, bw = Math.min(18, Math.max(7, slotW * 0.28));
         const nh = ((d.expectedNetSales || 0) / maxV) * 115, ch = ((d.cashCollected || 0) / maxV) * 115;
-        ctx.fillStyle = '#22d3ee'; ctx.fillRect(cx - bw - 2, 134 - nh, bw, nh);
-        ctx.fillStyle = '#34d399'; ctx.fillRect(cx + 2, 134 - ch, bw, ch);
-        ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillStyle = colAccent; ctx.fillRect(cx - bw - 2, 134 - nh, bw, nh);
+        ctx.fillStyle = colGreen; ctx.fillRect(cx + 2, 134 - ch, bw, ch);
+        ctx.fillStyle = colMuted; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText((d.date || '').slice(5), cx, 154);
         chartBars.push({ x: cx - slotW / 2, w: slotW, item: d });
       });
@@ -299,6 +578,25 @@
       if (hit) document.getElementById('chartHint').textContent = `${hit.item.date}: Sale ${inr(hit.item.expectedNetSales)} | Cash ${inr(hit.item.cashCollected)}`;
     }
 
+    function renderTopMeds(list, targetId) {
+      const el = document.getElementById(targetId);
+      const sorted = [...(list || [])].sort((a, b) => (Number(b.netSale10 || b.totalSale || 0) - Number(a.netSale10 || a.totalSale || 0))).slice(0, 5);
+      if (!sorted.length) { el.innerHTML = '<span style="color:var(--muted);font-size:12px;">कोई टॉप मेडिसिन डेटा उपलब्ध नहीं है।</span>'; return; }
+      const maxVal = Math.max(...sorted.map(x => Number(x.netSale10 || x.totalSale || 0)), 1);
+      el.innerHTML = sorted.map((m, idx) => {
+        const val = Number(m.netSale10 || m.totalSale || 0);
+        const pct = Math.max(6, Math.round((val / maxVal) * 100));
+        const qtyStr = m.qtyText || `${m.strips ? m.strips + ' Strip ' : ''}${m.tablets ? m.tablets + ' Tab' : ''}`.trim();
+        return `<div class="item" style="padding:6px 0;">
+          <div class="row" style="justify-content:space-between;">
+            <span><strong>#${idx + 1} ${esc(m.name)}</strong> <span style="font-size:11px;color:var(--muted);">(${esc(qtyStr || '-')})</span></span>
+            <strong style="color:var(--emerald);">${inr(val)}</strong>
+          </div>
+          <div class="top-bar-wrap"><div class="top-bar-fill" style="width:${pct}%"></div></div>
+        </div>`;
+      }).join('');
+    }
+
     function renderSoldMeds() {
       const q = (document.getElementById('soldFilter').value || '').trim().toLowerCase();
       const list = soldMedsCache.filter(m => !q || m.name.toLowerCase().includes(q));
@@ -307,32 +605,43 @@
         : '<tr><td colspan="4" style="color:var(--muted);">इस तारीख की कोई दवाई बिक्री नहीं मिली।</td></tr>';
     }
 
+    function renderDatePatients() {
+      const q = (document.getElementById('patFilter').value || '').trim().toLowerCase();
+      const list = datePatientsCache.filter(p => !q || (p.patientName || '').toLowerCase().includes(q) || (p.doctorName || '').toLowerCase().includes(q) || (p.diagnosis || '').toLowerCase().includes(q));
+      document.getElementById('datePatientsList').innerHTML = list.length
+        ? list.map(p => `<div class="item">
+            <div class="row" style="justify-content:space-between;">
+              <strong style="color:var(--accent);">${esc(p.patientName)} (${esc(p.age || '-')})</strong>
+              <span style="color:var(--emerald);font-weight:700;">Total: ${inr(p.totalPaid)}</span>
+            </div>
+            <div style="font-size:12px;color:var(--purple);margin-top:2px;">👨‍⚕️ ${esc(p.doctorName)}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Consult: ${inr(p.consultFee)} (${esc(p.consultMode)} → ${esc(p.consultPaidTo)}) | Med: ${inr(p.medAmount)} (${esc(p.medMode)} → ${esc(p.medPaidTo)})</div>
+            ${p.diagnosis ? `<div style="margin-top:3px;"><strong>Diagnosis:</strong> ${esc(p.diagnosis)}</div>` : ''}
+            ${p.medicinesDosage ? `<div style="margin-top:2px;color:var(--emerald);"><strong>Meds:</strong> ${esc(p.medicinesDosage)}</div>` : ''}
+          </div>`).join('')
+        : '<span style="color:var(--muted);font-size:13px;">कोई पेशेंट एंट्री नहीं मिली।</span>';
+    }
+
     async function loadDashboard() {
       const dt = document.getElementById('reportDate').value;
       document.getElementById('dateBadge').textContent = dt;
       try {
         const d = await apiGet({ action: 'dashboard', date: dt });
+        dailyCache = d;
         document.getElementById('sTotal').textContent = inr(d.totalDailySale);
         document.getElementById('sMedCash').textContent = inr(d.medicineCashOnly);
         document.getElementById('sConsult').textContent = inr(d.consultTotal);
         document.getElementById('sAllCash').textContent = inr(d.totalCashCollection);
         document.getElementById('sOnline').textContent = inr(d.onlineTotal);
         document.getElementById('sPatCount').textContent = d.patientCount;
+        setSplitBar('d', d.totalCashCollection, d.onlineTotal);
         soldMedsCache = d.soldMedicines || [];
         document.getElementById('soldCountPill').textContent = `${soldMedsCache.length} items`;
-        renderSoldMeds(); drawChart(d.recentCollections || []);
-        document.getElementById('datePatientsList').innerHTML = (d.patients || []).length
-          ? d.patients.map(p => `<div class="item">
-              <div class="row" style="justify-content:space-between;">
-                <strong style="color:var(--cyan);">${esc(p.patientName)} (${esc(p.age || '-')})</strong>
-                <span style="color:var(--emerald);font-weight:700;">Total: ${inr(p.totalPaid)}</span>
-              </div>
-              <div style="font-size:12px;color:var(--purple);margin-top:2px;">👨‍⚕️ ${esc(p.doctorName)}</div>
-              <div style="font-size:12px;color:var(--muted);margin-top:2px;">Consult: ${inr(p.consultFee)} (${esc(p.consultMode)} → ${esc(p.consultPaidTo)}) | Med: ${inr(p.medAmount)} (${esc(p.medMode)} → ${esc(p.medPaidTo)})</div>
-              ${p.diagnosis ? `<div style="margin-top:3px;"><strong>Diagnosis:</strong> ${esc(p.diagnosis)}</div>` : ''}
-              ${p.medicinesDosage ? `<div style="margin-top:2px;color:var(--emerald);"><strong>Meds:</strong> ${esc(p.medicinesDosage)}</div>` : ''}
-            </div>`).join('')
-          : '<span style="color:var(--muted);font-size:13px;">इस तारीख की कोई पेशेंट एंट्री नहीं है।</span>';
+        renderSoldMeds();
+        renderTopMeds(soldMedsCache, 'topSoldList');
+        drawChart(d.recentCollections || []);
+        datePatientsCache = d.patients || [];
+        renderDatePatients();
       } catch (e) { toast('Load Error: ' + e.message); }
     }
 
@@ -369,27 +678,78 @@
     }
 
     async function loadMonthly() {
+      const ym = document.getElementById('reportMonth').value;
+      const prevYm = getPrevMonthStr(ym);
       try {
-        const d = await apiGet({ action: 'monthly', month: document.getElementById('reportMonth').value });
+        const [d, prev] = await Promise.all([
+          apiGet({ action: 'monthly', month: ym }),
+          prevYm ? apiGet({ action: 'monthly', month: prevYm }).catch(() => null) : Promise.resolve(null)
+        ]);
+        monthlyCache = d; prevMonthlyCache = prev;
+        const curMed = Math.max(d.totalOpdMed || 0, d.sheetMedSales || 0);
+        const curGrand = (Number(d.totalCash) || 0) + (Number(d.totalOnline) || 0);
         document.getElementById('mConsult').textContent = inr(d.totalConsult);
-        document.getElementById('mMeds').textContent = inr(Math.max(d.totalOpdMed, d.sheetMedSales));
+        document.getElementById('mMeds').textContent = inr(curMed);
         document.getElementById('mCash').textContent = inr(d.totalCash);
         document.getElementById('mOnline').textContent = inr(d.totalOnline);
         document.getElementById('mPatients').textContent = d.patientCount;
+        document.getElementById('mGrand').textContent = inr(curGrand);
+        setSplitBar('m', d.totalCash, d.totalOnline);
+
+        if (prev) {
+          const prevMed = Math.max(prev.totalOpdMed || 0, prev.sheetMedSales || 0);
+          const prevGrand = (Number(prev.totalCash) || 0) + (Number(prev.totalOnline) || 0);
+          document.getElementById('mConsultCmp').innerHTML = `vs ${prevYm}: ${pctBadge(d.totalConsult, prev.totalConsult)}`;
+          document.getElementById('mMedsCmp').innerHTML = `vs ${prevYm}: ${pctBadge(curMed, prevMed)}`;
+          document.getElementById('mPatCmp').innerHTML = `vs ${prevYm}: ${pctBadge(d.patientCount, prev.patientCount)}`;
+          document.getElementById('mGrandCmp').innerHTML = `vs ${prevYm}: ${pctBadge(curGrand, prevGrand)}`;
+          document.getElementById('prevMonthCmpText').innerHTML = `${inr(prevGrand)} → ${inr(curGrand)} (${pctBadge(curGrand, prevGrand)})`;
+        } else {
+          document.getElementById('prevMonthCmpText').textContent = 'पिछले महीने का डेटा नहीं मिला';
+        }
 
         const docs = d.doctors || {};
         document.getElementById('monthlyDocBody').innerHTML = ['Dr. Gaurav Mahajan', 'Dr. Jasjyot Kaur'].map(k => {
           const x = docs[k] || { patients:0, consultCash:0, consultOnline:0, medCash:0, medOnline:0, total:0 };
-          return `<tr><td><strong>${esc(k)}</strong></td><td>${x.patients}</td><td>${inr(x.consultCash)}</td><td style="color:var(--cyan);">${inr(x.consultOnline)}</td><td>${inr(x.medCash)}</td><td style="color:var(--cyan);">${inr(x.medOnline)}</td><td style="color:var(--emerald);font-weight:800;">${inr(x.total)}</td></tr>`;
+          return `<tr><td><strong>${esc(k)}</strong></td><td>${x.patients}</td><td>${inr(x.consultCash)}</td><td style="color:var(--accent);">${inr(x.consultOnline)}</td><td>${inr(x.medCash)}</td><td style="color:var(--accent);">${inr(x.medOnline)}</td><td style="color:var(--emerald);font-weight:800;">${inr(x.total)}</td></tr>`;
         }).join('');
 
         const accs = d.accounts || {};
         document.getElementById('monthlyAccBody').innerHTML = ['Cash', 'Ajay', 'Jasjyot Kaur', 'HUF'].map(k => {
           const a = accs[k] || { consult:0, med:0, cash:0, online:0, total:0 };
-          return `<tr><td><strong>${esc(k)}</strong></td><td>${inr(a.consult)}</td><td>${inr(a.med)}</td><td>${inr(a.cash)}</td><td style="color:var(--cyan);">${inr(a.online)}</td><td style="color:var(--emerald);font-weight:800;">${inr(a.total)}</td></tr>`;
+          return `<tr><td><strong>${esc(k)}</strong></td><td>${inr(a.consult)}</td><td>${inr(a.med)}</td><td>${inr(a.cash)}</td><td style="color:var(--accent);">${inr(a.online)}</td><td style="color:var(--emerald);font-weight:800;">${inr(a.total)}</td></tr>`;
         }).join('');
+
+        if (d.topMedicines && d.topMedicines.length) {
+          document.getElementById('mTopMedsPill').textContent = ym;
+          renderTopMeds(d.topMedicines, 'monthlyTopMedsList');
+        } else {
+          document.getElementById('mTopMedsPill').textContent = 'Selected Day Top 5';
+          renderTopMeds(soldMedsCache, 'monthlyTopMedsList');
+        }
       } catch (e) { toast('Monthly Error: ' + e.message); }
     }
+
+        function shareDailyWA() {
+      if (!dailyCache) return toast('पहले Daily डेटा लोड होने दें');
+      const dt = document.getElementById('reportDate').value;
+      const d = dailyCache;
+      const txt = `*Mahajan ENT Clinic — Daily Summary*\n📅 Date: ${dt}\n━━━━━━━━━━━━━━\n👥 Patients: ${d.patientCount}\n💰 Total Sale: ${inr(d.totalDailySale)}\n🩺 Consultation: ${inr(d.consultTotal)}\n💊 Medicine Cash: ${inr(d.medicineCashOnly)}\n💵 Total Cash: ${inr(d.totalCashCollection)}\n📱 Online/UPI: ${inr(d.onlineTotal)}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+    }
+
+    function shareMonthlyWA() {
+      if (!monthlyCache) return toast('पहले Monthly डेटा लोड होने दें');
+      const ym = document.getElementById('reportMonth').value;
+      const d = monthlyCache, docs = d.doctors || {};
+      const g = docs['Dr. Gaurav Mahajan'] || { patients:0, total:0 };
+      const j = docs['Dr. Jasjyot Kaur'] || { patients:0, total:0 };
+      const grand = (Number(d.totalCash) || 0) + (Number(d.totalOnline) || 0);
+      const txt = `*Mahajan ENT Clinic — Monthly Report*\n📆 Month: ${ym}\n━━━━━━━━━━━━━━\n👥 Total Patients: ${d.patientCount}\n💰 Grand Collection: ${inr(grand)}\n💵 Cash: ${inr(d.totalCash)} | 📱 UPI: ${inr(d.totalOnline)}\n🩺 Consult: ${inr(d.totalConsult)}\n\n*Doctor-Wise:*\n• Dr. Gaurav: ${g.patients} pts — ${inr(g.total)}\n• Dr. Jasjyot: ${j.patients} pts — ${inr(j.total)}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+    }
+
+    function printReport() { window.print(); }
 
     async function loadStock() {
       try {
@@ -408,9 +768,44 @@
       const list = (stockCache.items || []).filter(i => !q || i.name.toLowerCase().includes(q));
       document.getElementById('stockTableBody').innerHTML = list.slice(0, 120).map(i => `<tr>
         <td><strong>${esc(i.name)}</strong></td><td>${i.currentStock}</td><td>${inr(i.mrp)}</td>
-        <td style="color:var(--cyan);">${inr(i.rateAfter10)}</td><td>${i.purchasePrice > 0 ? inr(i.purchasePrice) : '-'}</td>
+        <td style="color:var(--accent);">${inr(i.rateAfter10)}</td><td>${i.purchasePrice > 0 ? inr(i.purchasePrice) : '-'}</td>
         <td style="color:${i.profitPerStrip === null ? 'var(--muted)' : (i.profitPerStrip >= 0 ? 'var(--emerald)' : 'var(--rose)')};font-weight:700;">${i.profitPerStrip === null ? '-' : inr(i.profitPerStrip)}</td>
       </tr>`).join('');
+    }
+
+    function normalizeDateStr(s) {
+      if (!s) return '';
+      if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+      const m = String(s).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+      if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+      return '';
+    }
+
+    function clearUnpaidFilters() {
+      document.getElementById('unpaidSearch').value = '';
+      document.getElementById('unpaidFrom').value = '';
+      document.getElementById('unpaidTo').value = '';
+      renderUnpaidBills();
+    }
+
+    function renderUnpaidBills() {
+      const q = (document.getElementById('unpaidSearch').value || '').trim().toLowerCase();
+      const f = document.getElementById('unpaidFrom').value;
+      const t = document.getElementById('unpaidTo').value;
+      const list = unpaidCache.filter(b => {
+        const textOk = !q || (b.mrName || '').toLowerCase().includes(q) || String(b.billNo || '').toLowerCase().includes(q) || (b.medicineName || '').toLowerCase().includes(q);
+        const nd = normalizeDateStr(b.date);
+        const fromOk = !f || (nd && nd >= f);
+        const toOk = !t || (nd && nd <= t);
+        return textOk && fromOk && toOk;
+      });
+      document.getElementById('unpaidCount').textContent = `${list.length} bills`;
+      document.getElementById('unpaidBillsList').innerHTML = list.length
+        ? list.map(b => `<div class="item">
+            <div class="row" style="justify-content:space-between;"><strong>${esc(b.mrName)}</strong><span style="color:var(--rose);font-weight:800;">${inr(b.amount)}</span></div>
+            <div style="font-size:12px;color:var(--muted);">Date: ${esc(b.date || '-')} • Bill: ${esc(b.billNo || '-')} • ${esc(b.medicineName || '')}</div>
+          </div>`).join('')
+        : '<span style="color:var(--muted);font-size:13px;">इस फ़िल्टर में कोई Unpaid बिल नहीं मिला।</span>';
     }
 
     async function loadDues() {
@@ -418,13 +813,8 @@
         const d = await apiGet({ action: 'dues' });
         document.getElementById('dueUnpaid').textContent = inr(d.totalUnpaid);
         document.getElementById('dueTotalAll').textContent = inr(d.totalBilledAll);
-        document.getElementById('unpaidCount').textContent = `${(d.unpaidBills || []).length} bills`;
-        document.getElementById('unpaidBillsList').innerHTML = (d.unpaidBills || []).length
-          ? d.unpaidBills.map(b => `<div class="item">
-              <div class="row" style="justify-content:space-between;"><strong>${esc(b.mrName)}</strong><span style="color:var(--rose);font-weight:800;">${inr(b.amount)}</span></div>
-              <div style="font-size:12px;color:var(--muted);">Date: ${esc(b.date || '-')} • Bill: ${esc(b.billNo || '-')} • ${esc(b.medicineName || '')}</div>
-            </div>`).join('')
-          : '<span style="color:var(--muted);font-size:13px;">कोई Unpaid बिल नहीं है।</span>';
+        unpaidCache = d.unpaidBills || [];
+        renderUnpaidBills();
         mrCache = d.mrSummary || [];
         renderMRList();
       } catch (e) { toast('MR/Dues Error: ' + e.message); }
@@ -435,9 +825,9 @@
       const list = mrCache.filter(m => !q || m.mrName.toLowerCase().includes(q) || (m.medicines || []).some(x => x.toLowerCase().includes(q)));
       document.getElementById('mrSummaryList').innerHTML = list.length
         ? list.map(m => `<div class="item">
-            <div class="row" style="justify-content:space-between;"><strong style="color:var(--cyan);">${esc(m.mrName)}</strong><span style="color:var(--emerald);font-weight:800;">Total: ${inr(m.totalAmount)}</span></div>
+            <div class="row" style="justify-content:space-between;"><strong style="color:var(--accent);">${esc(m.mrName)}</strong><span style="color:var(--emerald);font-weight:800;">Total: ${inr(m.totalAmount)}</span></div>
             <div style="font-size:12px;color:var(--muted);margin-top:2px;">Bills: ${m.billCount} • Paid: ${inr(m.paidAmount)} • <span style="color:var(--rose);">Unpaid: ${inr(m.unpaidAmount)}</span></div>
-            <div style="font-size:12px;color:#cbd5e1;margin-top:4px;"><strong>Medicines:</strong> ${esc((m.medicines || []).join(', ') || '-')}</div>
+            <div style="font-size:12px;color:var(--text);margin-top:4px;"><strong>Medicines:</strong> ${esc((m.medicines || []).join(', ') || '-')}</div>
           </div>`).join('')
         : '<span style="color:var(--muted);font-size:13px;">कोई MR डेटा नहीं मिला।</span>';
     }
@@ -448,7 +838,7 @@
         const d = await apiGet({ action: 'history', q });
         document.getElementById('historyResults').innerHTML = (d.records || []).length
           ? d.records.map(r => `<div class="item">
-              <strong style="color:var(--cyan);">${esc(r.patientName)}</strong> (${esc(r.date)}) • ${esc(r.doctorName)}<br>
+              <strong style="color:var(--accent);">${esc(r.patientName)}</strong> (${esc(r.date)}) • ${esc(r.doctorName)}<br>
               <span style="font-size:12px;color:var(--muted);">Consult: ${inr(r.consultFee)} (${esc(r.consultPaidTo)}) | Med: ${inr(r.medAmount)} (${esc(r.medPaidTo)})</span>
               ${r.diagnosis ? `<div><strong>Diagnosis:</strong> ${esc(r.diagnosis)}</div>` : ''}
               ${r.medicinesDosage ? `<div style="color:var(--emerald);"><strong>Meds:</strong> ${esc(r.medicinesDosage)}</div>` : ''}
@@ -457,7 +847,14 @@
       } catch (e) { toast('Search Error: ' + e.message); }
     }
 
-    function refreshAll() { loadDashboard(); loadStock(); loadDues(); }
+    function refreshAll() {
+      toast('Refreshing data...');
+      loadDashboard(); loadStock(); loadDues();
+      if (!document.getElementById('tab-monthly').classList.contains('hidden')) loadMonthly();
+    }
+
+    applyTheme(localStorage.getItem('clinic_theme') || 'dark-blue');
+    updateOnlineStatus();
     setToday(); addMedRow(); refreshAll();
   </script>
 </body>
