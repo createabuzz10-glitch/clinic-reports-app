@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="hi" data-theme="dark-blue">
+    
 <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mahajan ENT Clinic — Reports & OPD</title>
@@ -749,15 +752,35 @@
       window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
     }
 
-    function printReport() {
-  const isWebView = /wv\)/i.test(navigator.userAgent) || !!window.Capacitor;
-  if (!isWebView) { window.print(); return; }
-  const activeTab = ['daily','monthly','stock','dues'].find(k => !document.getElementById('tab-' + k).classList.contains('hidden')) || 'daily';
-  const dt = document.getElementById('reportDate').value;
-  const ym = document.getElementById('reportMonth').value;
-  const url = `https://createabuzz10-glitch.github.io/clinic-reports-app/www/?tab=${activeTab}&date=${dt}&month=${ym}&autoprint=1`;
-  window.open(url, '_system');
-}
+        async function printReport() {
+      if (typeof html2pdf === 'undefined') return toast('PDF tool load ho raha hai, 2 sec baad try karein');
+      const activeTab = ['daily','monthly','stock','dues'].find(k => !document.getElementById('tab-' + k).classList.contains('hidden')) || 'daily';
+      const el = document.getElementById('tab-' + activeTab);
+      const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#070b14';
+      toast('PDF ban raha hai...');
+      const opt = {
+        margin: 6,
+        filename: `Mahajan_ENT_${activeTab}_${new Date().toISOString().slice(0,10)}.pdf`,
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: bg },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      try {
+        const blob = await html2pdf().set(opt).from(el).outputPdf('blob');
+        const file = new File([blob], opt.filename, { type: 'application/pdf' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: 'Mahajan ENT Clinic Report' });
+        } else {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = opt.filename; a.click();
+          toast('PDF save ho gaya!');
+        }
+      } catch (e) {
+        if (e.name !== 'AbortError') toast('PDF Error: ' + e.message);
+      }
+    }
+
 
 
     async function loadStock() {
