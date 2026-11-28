@@ -888,14 +888,7 @@
     applyTheme(localStorage.getItem('clinic_theme') || 'dark-blue');
     updateOnlineStatus();
     setToday(); addMedRow(); refreshAll();
-        const _p = new URLSearchParams(location.search);
-    if (_p.get('date')) document.getElementById('reportDate').value = _p.get('date');
-    if (_p.get('month')) document.getElementById('reportMonth').value = _p.get('month');
-    if (_p.get('tab')) switchTab(_p.get('tab'));
-    if (_p.get('autoprint') === '1') {
-      toast('PDF ready ho raha hai...');
-      setTimeout(() => window.print(), 2500);
-    }
+        
     
   </script>
 </body>
