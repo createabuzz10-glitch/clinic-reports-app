@@ -6,93 +6,71 @@
   <title>Mahajan ENT Clinic — Reports & OPD</title>
   <style>
     :root {
-      --bg: #070b14;
-      --grid: rgba(56, 189, 248, 0.06);
-      --surface: rgba(15, 23, 42, 0.9);
-      --surface2: rgba(30, 41, 59, 0.8);
-      --border: rgba(148, 163, 184, 0.2);
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --cyan: #22d3ee;
-      --emerald: #34d399;
-      --purple: #c084fc;
-      --amber: #fbbf24;
-      --rose: #fb7185;
-      --indigo: #818cf8;
+      --bg:#070b14; --grid:rgba(56,189,248,0.06); --surface:rgba(15,23,42,0.92);
+      --surface2:rgba(30,41,59,0.82); --border:rgba(148,163,184,0.2);
+      --text:#f8fafc; --muted:#94a3b8; --cyan:#22d3ee; --emerald:#34d399;
+      --purple:#c084fc; --amber:#fbbf24; --rose:#fb7185; --indigo:#818cf8;
     }
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    * { box-sizing:border-box; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; }
     body {
-      margin: 0; color: var(--text); background-color: var(--bg);
+      margin:0; color:var(--text); background-color:var(--bg);
       background-image:
-        radial-gradient(circle at 12% 10%, rgba(34, 211, 238, 0.16), transparent 36%),
-        radial-gradient(circle at 88% 14%, rgba(192, 132, 252, 0.16), transparent 38%),
+        radial-gradient(circle at 12% 10%, rgba(34,211,238,0.16), transparent 36%),
+        radial-gradient(circle at 88% 14%, rgba(192,132,252,0.16), transparent 38%),
         linear-gradient(to right, var(--grid) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 26px 26px, 26px 26px;
-      padding-bottom: 84px; min-height: 100vh;
+      background-size:100% 100%, 100% 100%, 26px 26px, 26px 26px;
+      padding-bottom:84px; min-height:100vh;
     }
-    header {
-      position: sticky; top: 0; z-index: 30; backdrop-filter: blur(14px);
-      background: rgba(9, 14, 26, 0.86); border-bottom: 1px solid var(--border);
-      padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;
-    }
-    .brand { margin: 0; font-size: 17px; font-weight: 800; background: linear-gradient(90deg, var(--cyan), var(--purple), var(--emerald)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .sub { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
-    .container { max-width: 960px; margin: 12px auto; padding: 0 10px; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 13px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
-    .head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
-    .title { margin: 0; font-size: 15px; font-weight: 700; }
-    .pill { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: rgba(34,211,238,0.14); color: var(--cyan); border: 1px solid rgba(34,211,238,0.3); }
-    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    @media (max-width: 600px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-    .kpi { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px; position: relative; overflow: hidden; }
-    .kpi::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; }
-    .kpi.cyan::before { background: var(--cyan); }
-    .kpi.emerald::before { background: var(--emerald); }
-    .kpi.purple::before { background: var(--purple); }
-    .kpi.amber::before { background: var(--amber); }
-    .kpi.rose::before { background: var(--rose); }
-    .kpi.indigo::before { background: var(--indigo); }
-    .kpi-l { font-size: 11px; color: var(--muted); font-weight: 600; }
-    .kpi-v { font-size: 17px; font-weight: 800; margin-top: 4px; }
-    .kpi.cyan .kpi-v { color: var(--cyan); }
-    .kpi.emerald .kpi-v { color: var(--emerald); }
-    .kpi.purple .kpi-v { color: var(--purple); }
-    .kpi.amber .kpi-v { color: var(--amber); }
-    .kpi.rose .kpi-v { color: var(--rose); }
-    .kpi.indigo .kpi-v { color: var(--indigo); }
-    label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 600; }
-    input, select, textarea { width: 100%; padding: 8px 10px; border-radius: 9px; border: 1px solid rgba(148,163,184,0.25); background: rgba(2,6,23,0.75); color: var(--text); font-size: 13px; }
-    textarea { min-height: 58px; resize: vertical; }
-    .btn { border: none; border-radius: 9px; padding: 8px 12px; font-size: 13px; font-weight: 700; cursor: pointer; color: #050811; background: linear-gradient(135deg, var(--cyan), var(--emerald)); }
-    .btn.sec { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-    .btn.pur { background: linear-gradient(135deg, var(--purple), var(--indigo)); color: #fff; }
-    .btn.sm { padding: 6px 10px; font-size: 12px; }
-    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .med-card { background: rgba(2,6,23,0.65); border: 1px solid var(--border); border-radius: 10px; padding: 8px; margin-bottom: 8px; }
-    .med-grid { display: grid; grid-template-columns: 1.8fr 0.9fr 1.1fr 1.2fr auto; gap: 6px; align-items: center; }
-    @media (max-width: 640px) { .med-grid { grid-template-columns: 1fr 1fr; } }
-    .pay-box { background: rgba(2,6,23,0.55); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-top: 8px; }
-    .item { padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .item:last-child { border-bottom: none; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { text-align: left; padding: 7px 5px; border-bottom: 1px solid var(--border); }
-    th { color: var(--cyan); background: rgba(2,6,23,0.6); }
-    canvas.chart { width: 100%; height: 170px; display: block; border-radius: 10px; background: rgba(2,6,23,0.65); border: 1px solid var(--border); }
-    .nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; backdrop-filter: blur(14px); background: rgba(9,14,26,0.94); border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); padding: 6px; gap: 4px; }
-    .nav-btn { background: transparent; color: var(--muted); border: 1px solid transparent; border-radius: 10px; padding: 7px 4px; font-size: 11px; font-weight: 700; cursor: pointer; }
-    .nav-btn.active { color: var(--text); background: rgba(34,211,238,0.15); border-color: rgba(34,211,238,0.35); }
-    .hidden { display: none; }
-    .toast { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); background: #0f172a; color: var(--cyan); border: 1px solid var(--cyan); padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; z-index: 60; display: none; }
+    header { position:sticky; top:0; z-index:30; backdrop-filter:blur(14px); background:rgba(9,14,26,0.88); border-bottom:1px solid var(--border); padding:12px 14px; display:flex; justify-content:space-between; align-items:center; }
+    .brand { margin:0; font-size:17px; font-weight:800; background:linear-gradient(90deg,var(--cyan),var(--purple),var(--emerald)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .sub { margin:2px 0 0; font-size:11px; color:var(--muted); }
+    .container { max-width:960px; margin:12px auto; padding:0 10px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:13px; margin-bottom:12px; box-shadow:0 8px 24px rgba(0,0,0,0.35); }
+    .head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; }
+    .title { margin:0; font-size:15px; font-weight:700; }
+    .pill { font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; background:rgba(34,211,238,0.14); color:var(--cyan); border:1px solid rgba(34,211,238,0.3); }
+    .kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+    @media (max-width:600px) { .kpi-grid { grid-template-columns:repeat(2,1fr); } }
+    .kpi { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:10px; position:relative; overflow:hidden; }
+    .kpi::before { content:''; position:absolute; inset:0 0 auto 0; height:3px; }
+    .kpi.cyan::before { background:var(--cyan); } .kpi.emerald::before { background:var(--emerald); }
+    .kpi.purple::before { background:var(--purple); } .kpi.amber::before { background:var(--amber); }
+    .kpi.rose::before { background:var(--rose); } .kpi.indigo::before { background:var(--indigo); }
+    .kpi-l { font-size:11px; color:var(--muted); font-weight:600; }
+    .kpi-v { font-size:17px; font-weight:800; margin-top:4px; }
+    .kpi.cyan .kpi-v { color:var(--cyan); } .kpi.emerald .kpi-v { color:var(--emerald); }
+    .kpi.purple .kpi-v { color:var(--purple); } .kpi.amber .kpi-v { color:var(--amber); }
+    .kpi.rose .kpi-v { color:var(--rose); } .kpi.indigo .kpi-v { color:var(--indigo); }
+    label { display:block; font-size:11px; color:var(--muted); margin-bottom:3px; font-weight:600; }
+    input, select, textarea { width:100%; padding:8px 10px; border-radius:9px; border:1px solid rgba(148,163,184,0.25); background:rgba(2,6,23,0.75); color:var(--text); font-size:13px; }
+    textarea { min-height:56px; resize:vertical; }
+    .btn { border:none; border-radius:9px; padding:8px 12px; font-size:13px; font-weight:700; cursor:pointer; color:#050811; background:linear-gradient(135deg,var(--cyan),var(--emerald)); }
+    .btn.sec { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+    .btn.pur { background:linear-gradient(135deg,var(--purple),var(--indigo)); color:#fff; }
+    .btn.sm { padding:6px 10px; font-size:12px; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .med-card { background:rgba(2,6,23,0.65); border:1px solid var(--border); border-radius:10px; padding:8px; margin-bottom:8px; }
+    .med-grid { display:grid; grid-template-columns:1.8fr 0.9fr 1.1fr 1.2fr auto; gap:6px; align-items:center; }
+    @media (max-width:640px) { .med-grid { grid-template-columns:1fr 1fr; } }
+    .pay-box { background:rgba(2,6,23,0.55); border:1px solid var(--border); border-radius:12px; padding:10px; margin-top:8px; }
+    .item { padding:9px 0; border-bottom:1px solid var(--border); font-size:13px; }
+    .item:last-child { border-bottom:none; }
+    table { width:100%; border-collapse:collapse; font-size:12px; }
+    th, td { text-align:left; padding:7px 5px; border-bottom:1px solid var(--border); }
+    th { color:var(--cyan); background:rgba(2,6,23,0.6); }
+    canvas.chart { width:100%; height:165px; display:block; border-radius:10px; background:rgba(2,6,23,0.65); border:1px solid var(--border); }
+    .nav { position:fixed; bottom:0; left:0; right:0; z-index:30; backdrop-filter:blur(14px); background:rgba(9,14,26,0.94); border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(4,1fr); padding:6px; gap:4px; }
+    .nav-btn { background:transparent; color:var(--muted); border:1px solid transparent; border-radius:10px; padding:7px 4px; font-size:11px; font-weight:700; cursor:pointer; }
+    .nav-btn.active { color:var(--text); background:rgba(34,211,238,0.15); border-color:rgba(34,211,238,0.35); }
+    .hidden { display:none; }
+    .toast { position:fixed; bottom:76px; left:50%; transform:translateX(-50%); background:#0f172a; color:var(--cyan); border:1px solid var(--cyan); padding:7px 14px; border-radius:999px; font-size:12px; font-weight:700; z-index:60; display:none; }
   </style>
 </head>
 <body>
   <header>
-    <div>
-      <h1 class="brand">Mahajan ENT Clinic</h1>
-      <p class="sub">Daily Report • OPD • Monthly • Stock Profit</p>
-    </div>
+    <div><h1 class="brand">Mahajan ENT Clinic</h1><p class="sub">Daily Report • OPD • Monthly • Live Stock & MR</p></div>
     <button class="btn sm sec" onclick="refreshAll()">↻ Refresh</button>
   </header>
 
@@ -101,10 +79,7 @@
     <section id="tab-daily">
       <div class="card">
         <div class="row" style="justify-content:space-between; margin-bottom:10px;">
-          <div style="flex:1; min-width:150px;">
-            <label>तारीख चुनें (Daily Report)</label>
-            <input type="date" id="reportDate" onchange="loadDashboard()" />
-          </div>
+          <div style="flex:1; min-width:150px;"><label>तारीख चुनें (Daily Report)</label><input type="date" id="reportDate" onchange="loadDashboard()" /></div>
           <div class="row" style="padding-top:14px;">
             <button class="btn sm sec" onclick="setToday(); loadDashboard();">आज</button>
             <button class="btn sm" onclick="loadDashboard()">देखें</button>
@@ -116,216 +91,149 @@
           <div class="kpi purple"><div class="kpi-l">Consultation Fee</div><div class="kpi-v" id="sConsult">₹0</div></div>
           <div class="kpi indigo"><div class="kpi-l">Total Cash (All)</div><div class="kpi-v" id="sAllCash">₹0</div></div>
           <div class="kpi emerald"><div class="kpi-l">Online / UPI</div><div class="kpi-v" id="sOnline">₹0</div></div>
-          <div class="kpi amber"><div class="kpi-l">Patients / Due</div><div class="kpi-v" id="sPatDue">0 | ₹0</div></div>
+          <div class="kpi amber"><div class="kpi-l">Patients Visited</div><div class="kpi-v" id="sPatCount">0</div></div>
         </div>
       </div>
 
-      <!-- Daily Sold Medicines Report -->
       <div class="card">
-        <div class="head">
-          <h3 class="title">आज बिकी हुई दवाइयां (Daily Medicine Report)</h3>
-          <span class="pill" id="soldCountPill">0 items</span>
-        </div>
+        <div class="head"><h3 class="title">आज बिकी हुई दवाइयां (Daily Sales Sheet)</h3><span class="pill" id="soldCountPill">0 items</span></div>
         <input type="text" id="soldFilter" oninput="renderSoldMeds()" placeholder="दवा का नाम खोजें..." style="margin-bottom:8px;" />
-        <div style="overflow-x:auto;">
-          <table>
-            <thead><tr><th>Medicine</th><th>Qty</th><th>MRP Val</th><th>10% Sale</th></tr></thead>
-            <tbody id="soldMedsBody"></tbody>
-          </table>
-        </div>
+        <div style="overflow-x:auto;"><table><thead><tr><th>Medicine</th><th>Qty</th><th>MRP Val</th><th>10% Sale</th></tr></thead><tbody id="soldMedsBody"></tbody></table></div>
       </div>
 
-      <!-- 7-Day Canvas Chart -->
       <div class="card">
-        <div class="head">
-          <h3 class="title">Recent Sales vs Cash</h3>
-          <span class="pill" id="chartHint">Tap bar</span>
-        </div>
-        <canvas id="salesCanvas" class="chart" height="170" onclick="handleChartClick(event)"></canvas>
+        <div class="head"><h3 class="title">Recent Sales vs Cash</h3><span class="pill" id="chartHint">Tap bar</span></div>
+        <canvas id="salesCanvas" class="chart" height="165" onclick="handleChartClick(event)"></canvas>
       </div>
 
-      <!-- Patient Entry Form -->
       <div class="card">
-        <div class="head">
-          <h3 class="title">नया पेशेंट रिकॉर्ड (OPD + Medicine)</h3>
-          <span class="pill">Patient_Register</span>
-        </div>
+        <div class="head"><h3 class="title">नया पेशेंट रिकॉर्ड (OPD + Medicine)</h3><span class="pill">Patient_Register</span></div>
         <form id="patientForm" onsubmit="submitPatient(event)">
+          <div style="margin-bottom:8px;">
+            <label style="color:var(--cyan);">Doctor Name (किस डॉक्टर ने देखा) *</label>
+            <select id="pDoctor"><option value="Dr. Gaurav Mahajan">Dr. Gaurav Mahajan</option><option value="Dr. Jasjyot Kaur">Dr. Jasjyot Kaur</option></select>
+          </div>
           <div class="grid-2">
             <div><label>Patient Name *</label><input type="text" id="pName" required placeholder="मरीज़ का नाम" /></div>
             <div><label>Mobile No.</label><input type="tel" id="pMobile" placeholder="मोबाइल नंबर" /></div>
             <div><label>Age</label><input type="text" id="pAge" placeholder="जैसे: 28 Y" /></div>
-            <div>
-              <label>Gender</label>
-              <select id="pGender"><option>Male</option><option>Female</option><option>Other</option></select>
-            </div>
+            <div><label>Gender</label><select id="pGender"><option>Male</option><option>Female</option><option>Other</option></select></div>
           </div>
-
-          <div style="margin-top:8px;">
-            <label>Diagnosis / Notes</label>
-            <textarea id="pDiagnosis" placeholder="डायग्नोसिस या नोट्स..."></textarea>
-          </div>
-
+          <div style="margin-top:8px;"><label>Diagnosis / Notes</label><textarea id="pDiagnosis" placeholder="डायग्नोसिस या नोट्स..."></textarea></div>
           <div style="margin-top:8px;">
             <div class="row" style="justify-content:space-between; margin-bottom:6px;">
               <label style="margin:0;">Medicines (Name • Days • Dose • Timing)</label>
               <button type="button" class="btn sm pur" onclick="addMedRow()">+ Add Medicine</button>
             </div>
-            <div id="medRows"></div>
-            <datalist id="stockMedList"></datalist>
+            <div id="medRows"></div><datalist id="stockMedList"></datalist>
           </div>
-
-          <!-- Split Payment 1: Consultation -->
           <div class="pay-box">
             <label style="color:var(--purple); font-size:12px;">1. Consultation Payment (कंसल्टेशन फीस)</label>
             <div class="kpi-grid">
               <div><label>Amount (₹)</label><input type="number" step="0.01" id="cFee" value="0" /></div>
-              <div>
-                <label>Mode</label>
-                <select id="cMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select>
-              </div>
-              <div>
-                <label>Paid To (अकाउंट)</label>
-                <select id="cPaidTo"><option>Ajay</option><option>Jasjyot Kaur</option><option>HUF</option></select>
-              </div>
+              <div><label>Mode</label><select id="cMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select></div>
+              <div><label>Paid To</label><select id="cPaidTo"><option>Cash</option><option>Ajay</option><option>Jasjyot Kaur</option><option>HUF</option></select></div>
             </div>
           </div>
-
-          <!-- Split Payment 2: Medicine -->
           <div class="pay-box">
             <label style="color:var(--emerald); font-size:12px;">2. Medicine Payment (दवाई के पैसे)</label>
             <div class="kpi-grid">
               <div><label>Amount (₹)</label><input type="number" step="0.01" id="mFee" value="0" /></div>
-              <div>
-                <label>Mode</label>
-                <select id="mMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select>
-              </div>
-              <div>
-                <label>Paid To (अकाउंट)</label>
-                <select id="mPaidTo"><option>Ajay</option><option>Jasjyot Kaur</option><option>HUF</option></select>
-              </div>
+              <div><label>Mode</label><select id="mMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Other</option></select></div>
+              <div><label>Paid To</label><select id="mPaidTo"><option>Cash</option><option>Ajay</option><option>Jasjyot Kaur</option><option>HUF</option></select></div>
             </div>
           </div>
-
-          <div style="margin-top:8px;">
-            <label>Pending Due (अगर कुछ बाकी है ₹)</label>
-            <input type="number" step="0.01" id="pPending" value="0" />
-          </div>
-
           <button type="submit" class="btn" style="width:100%; margin-top:10px;">Save Patient Record</button>
         </form>
       </div>
 
-      <!-- Date-Wise Patients -->
       <div class="card">
         <div class="head"><h3 class="title">इस तारीख के पेशेंट्स</h3><span class="pill" id="dateBadge">Today</span></div>
         <div id="datePatientsList"></div>
       </div>
     </section>
 
-    <!-- TAB 2: MONTHLY REPORT -->
+    <!-- TAB 2: MONTHLY -->
     <section id="tab-monthly" class="hidden">
       <div class="card">
         <div class="row" style="justify-content:space-between; margin-bottom:10px;">
-          <div style="flex:1; min-width:160px;">
-            <label>महीना चुनें (Monthly Report)</label>
-            <input type="month" id="reportMonth" onchange="loadMonthly()" />
-          </div>
+          <div style="flex:1; min-width:160px;"><label>महीना चुनें (Monthly Report)</label><input type="month" id="reportMonth" onchange="loadMonthly()" /></div>
           <div style="padding-top:14px;"><button class="btn sm" onclick="loadMonthly()">देखें</button></div>
         </div>
         <div class="kpi-grid">
           <div class="kpi purple"><div class="kpi-l">Total Consultation</div><div class="kpi-v" id="mConsult">₹0</div></div>
-          <div class="kpi cyan"><div class="kpi-l">OPD + Sheet Meds</div><div class="kpi-v" id="mMeds">₹0</div></div>
+          <div class="kpi cyan"><div class="kpi-l">Total Medicine</div><div class="kpi-v" id="mMeds">₹0</div></div>
           <div class="kpi emerald"><div class="kpi-l">Total Cash</div><div class="kpi-v" id="mCash">₹0</div></div>
           <div class="kpi indigo"><div class="kpi-l">Total Online/UPI</div><div class="kpi-v" id="mOnline">₹0</div></div>
           <div class="kpi amber"><div class="kpi-l">Total Patients</div><div class="kpi-v" id="mPatients">0</div></div>
-          <div class="kpi rose"><div class="kpi-l">Month Pending</div><div class="kpi-v" id="mPending">₹0</div></div>
         </div>
       </div>
-
       <div class="card">
-        <div class="head"><h3 class="title">किसके नंबर / अकाउंट पर कितना गया</h3><span class="pill">HUF • Jasjyot • Ajay</span></div>
-        <div style="overflow-x:auto;">
-          <table>
-            <thead><tr><th>Account</th><th>Consult</th><th>Med</th><th>Cash</th><th>UPI/Online</th><th>Total</th></tr></thead>
-            <tbody id="monthlyAccBody"></tbody>
-          </table>
-        </div>
+        <div class="head"><h3 class="title">Doctor-Wise Monthly Report</h3><span class="pill">Dr. Gaurav • Dr. Jasjyot</span></div>
+        <div style="overflow-x:auto;"><table><thead><tr><th>Doctor</th><th>Pts</th><th>Cons Cash</th><th>Cons UPI</th><th>Med Cash</th><th>Med UPI</th><th>Total</th></tr></thead><tbody id="monthlyDocBody"></tbody></table></div>
+      </div>
+      <div class="card">
+        <div class="head"><h3 class="title">Account-Wise Collection</h3><span class="pill">Cash • Ajay • Jasjyot • HUF</span></div>
+        <div style="overflow-x:auto;"><table><thead><tr><th>Account</th><th>Consult</th><th>Med</th><th>Cash</th><th>UPI</th><th>Total</th></tr></thead><tbody id="monthlyAccBody"></tbody></table></div>
       </div>
     </section>
 
-    <!-- TAB 3: STOCK & 10% PROFIT -->
+    <!-- TAB 3: STOCK -->
     <section id="tab-stock" class="hidden">
       <div class="card">
         <div class="head"><h3 class="title">Live Stock & 10% Discount Profit</h3><span class="pill">MRP → 10% Off → Profit</span></div>
         <div class="kpi-grid">
           <div class="kpi cyan"><div class="kpi-l">Stock MRP Value</div><div class="kpi-v" id="stkMrp">₹0</div></div>
-          <div class="kpi emerald"><div class="kpi-l">10% Off Sale Value</div><div class="kpi-v" id="stkSale10">₹0</div></div>
-          <div class="kpi purple"><div class="kpi-l">Net Profit (After 10%)</div><div class="kpi-v" id="stkProfit">₹0</div></div>
+          <div class="kpi emerald"><div class="kpi-l">10% Off Sale</div><div class="kpi-v" id="stkSale10">₹0</div></div>
+          <div class="kpi purple"><div class="kpi-l">Net Profit</div><div class="kpi-v" id="stkProfit">₹0</div></div>
         </div>
       </div>
-
       <div class="card">
-        <label>दवा खोजें (Per Strip MRP vs 10% Off Profit)</label>
+        <label>दवा खोजें</label>
         <input type="text" id="stockFilter" oninput="renderStockTable()" placeholder="दवा का नाम टाइप करें..." />
-        <div style="overflow-x:auto; margin-top:8px;">
-          <table>
-            <thead><tr><th>Medicine</th><th>Stock</th><th>MRP</th><th>10% Off</th><th>Cost</th><th>Net Profit</th></tr></thead>
-            <tbody id="stockTableBody"></tbody>
-          </table>
-        </div>
+        <div style="overflow-x:auto; margin-top:8px;"><table><thead><tr><th>Medicine</th><th>Stock</th><th>MRP</th><th>10% Off</th><th>Cost</th><th>Net Profit</th></tr></thead><tbody id="stockTableBody"></tbody></table></div>
       </div>
     </section>
 
-    <!-- TAB 4: DUES & HISTORY -->
+    <!-- TAB 4: DUES, MR & HISTORY -->
     <section id="tab-dues" class="hidden">
       <div class="card">
         <div class="grid-2">
-          <div class="kpi amber"><div class="kpi-l">आने वाला (Patient Dues)</div><div class="kpi-v" id="dueRec">₹0</div></div>
-          <div class="kpi rose"><div class="kpi-l">देने वाला (Distributor)</div><div class="kpi-v" id="duePay">₹0</div></div>
+          <div class="kpi rose"><div class="kpi-l">Total Unpaid (Stock In Log)</div><div class="kpi-v" id="dueUnpaid">₹0</div></div>
+          <div class="kpi cyan"><div class="kpi-l">Total Stock In (All MRs)</div><div class="kpi-v" id="dueTotalAll">₹0</div></div>
         </div>
       </div>
-      <div class="card"><h3 class="title" style="margin-bottom:8px;">Patient Pending Dues</h3><div id="receivablesList"></div></div>
-      <div class="card"><h3 class="title" style="margin-bottom:8px;">Distributor Dues</h3><div id="payablesList"></div></div>
+      <div class="card"><div class="head"><h3 class="title">Unpaid / Pending Bills (Live)</h3><span class="pill" id="unpaidCount">0</span></div><div id="unpaidBillsList"></div></div>
+      <div class="card">
+        <div class="head"><h3 class="title">MR-Wise Total & Medicines</h3><span class="pill">Stock In Log</span></div>
+        <input type="text" id="mrFilter" oninput="renderMRList()" placeholder="MR या कंपनी का नाम खोजें..." style="margin-bottom:8px;" />
+        <div id="mrSummaryList"></div>
+      </div>
       <div class="card">
         <h3 class="title" style="margin-bottom:8px;">Search Past Patient History</h3>
-        <div class="row">
-          <input type="text" id="historyQuery" placeholder="नाम, मोबाइल या डायग्नोसिस..." style="flex:1;" />
-          <button class="btn sm pur" onclick="searchHistory()">Search</button>
-        </div>
+        <div class="row"><input type="text" id="historyQuery" placeholder="नाम, मोबाइल, डॉक्टर या डायग्नोसिस..." style="flex:1;" /><button class="btn sm pur" onclick="searchHistory()">Search</button></div>
         <div id="historyResults" style="margin-top:8px;"></div>
       </div>
     </section>
   </div>
 
   <div class="toast" id="toast"></div>
-
   <nav class="nav">
     <button class="nav-btn active" id="nav-daily" onclick="switchTab('daily')">📊 Daily</button>
     <button class="nav-btn" id="nav-monthly" onclick="switchTab('monthly')">📅 Monthly</button>
     <button class="nav-btn" id="nav-stock" onclick="switchTab('stock')">💊 Stock</button>
-    <button class="nav-btn" id="nav-dues" onclick="switchTab('dues')">💰 Dues</button>
+    <button class="nav-btn" id="nav-dues" onclick="switchTab('dues')">📦 MR & Dues</button>
   </nav>
-
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbz-cDjSvaaIIrR-m2kAfcP5HRDT50adz5rXZagDfTno8pQW6Nu3D0HN7Lr3M9SRyEU/exec';
-    let stockCache = null;
-    let soldMedsCache = [];
-    let chartBars = [];
+    let stockCache = null, soldMedsCache = [], mrCache = [], chartBars = [];
 
-    function toast(msg) {
-      const el = document.getElementById('toast');
-      el.textContent = msg; el.style.display = 'block';
-      clearTimeout(window._tt);
-      window._tt = setTimeout(() => { el.style.display = 'none'; }, 2600);
-    }
-
+    function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.style.display = 'block'; clearTimeout(window._tt); window._tt = setTimeout(() => { el.style.display = 'none'; }, 2600); }
     function inr(n) { return '₹' + (Number(n) || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 }); }
     function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
     function setToday() {
-      const d = new Date();
-      const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+      const d = new Date(), y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
       document.getElementById('reportDate').value = `${y}-${m}-${day}`;
       document.getElementById('reportMonth').value = `${y}-${m}`;
     }
@@ -344,68 +252,43 @@
       const box = document.getElementById('medRows');
       const div = document.createElement('div');
       div.className = 'med-card';
-      div.innerHTML = `
-        <div class="med-grid">
-          <input type="text" class="m-name" list="stockMedList" placeholder="दवा का नाम" />
-          <input type="text" class="m-days" placeholder="Days" value="5 Days" />
-          <select class="m-freq">
-            <option value="1-0-1">1-0-1 (सुबह-शाम)</option>
-            <option value="1-1-1">1-1-1 (तीन बार)</option>
-            <option value="0-0-1">0-0-1 (रात में)</option>
-            <option value="1-0-0">1-0-0 (सुबह)</option>
-            <option value="SOS">SOS</option>
-          </select>
-          <select class="m-time">
-            <option value="After Food">After Food (खाना खाने के बाद)</option>
-            <option value="Before Breakfast">Before Breakfast (नाश्ते से पहले)</option>
-            <option value="Before Food">Before Food (खाने से पहले)</option>
-            <option value="Empty Stomach">Empty Stomach (खाली पेट)</option>
-            <option value="At Bedtime">At Bedtime (सोते समय)</option>
-                        <option value="After Steam">After Steam (स्टीम लेने के बाद)</option>
-            <option value="Before Steam">Before Steam (स्टीम लेने से पहले)</option>
-            <option value="Any Time / Nil">Any Time / Nil (कभी भी)</option>
-            
-          </select>
-          <button type="button" class="btn sm sec" onclick="this.closest('.med-card').remove()">✕</button>
-        </div>`;
+      div.innerHTML = `<div class="med-grid">
+        <input type="text" class="m-name" list="stockMedList" placeholder="दवा का नाम" />
+        <input type="text" class="m-days" placeholder="Days" value="5 Days" />
+        <select class="m-freq">
+          <option value="1-0-1">1-0-1 (सुबह-शाम)</option><option value="1-1-1">1-1-1 (तीन बार)</option>
+          <option value="0-0-1">0-0-1 (रात में)</option><option value="1-0-0">1-0-0 (सुबह)</option><option value="SOS">SOS</option>
+        </select>
+        <select class="m-time">
+          <option value="After Food">After Food</option><option value="Before Breakfast">Before Breakfast</option>
+          <option value="Before Food">Before Food</option><option value="Empty Stomach">Empty Stomach</option>
+          <option value="At Bedtime">At Bedtime</option><option value="After Steam">After Steam</option>
+          <option value="Before Steam">Before Steam</option><option value="Any Time / Nil">Any Time / Nil</option>
+        </select>
+        <button type="button" class="btn sm sec" onclick="this.closest('.med-card').remove()">✕</button>
+      </div>`;
       box.appendChild(div);
     }
 
-        async function apiGet(params) {
-      const res = await fetch(`${API_URL}?${new URLSearchParams(params)}`);
-      const j = await res.json();
-      if (!j.ok) throw new Error(j.error || 'Error');
-      return j.data;
-    }
-
-    async function apiPost(body) {
-      const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
-      const j = await res.json();
-      if (!j.ok) throw new Error(j.error || 'POST Error');
-      return j.data;
-    }
+    async function apiGet(params) { const r = await fetch(`${API_URL}?${new URLSearchParams(params)}`); const j = await r.json(); if (!j.ok) throw new Error(j.error || 'Error'); return j.data; }
+    async function apiPost(body) { const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }); const j = await r.json(); if (!j.ok) throw new Error(j.error || 'POST Error'); return j.data; }
 
     function drawChart(items) {
-      const c = document.getElementById('salesCanvas');
-      const dpr = window.devicePixelRatio || 1;
-      const w = Math.max(300, c.getBoundingClientRect().width || 500), h = 170;
+      const c = document.getElementById('salesCanvas'), dpr = window.devicePixelRatio || 1;
+      const w = Math.max(300, c.getBoundingClientRect().width || 500), h = 165;
       c.width = w * dpr; c.height = h * dpr;
-      const ctx = c.getContext('2d');
-      ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
-      const list = (items || []).slice(0, 7).reverse();
-      chartBars = [];
-      if (!list.length) { ctx.fillStyle = '#94a3b8'; ctx.fillText('No chart data', 16, 85); return; }
+      const ctx = c.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+      const list = (items || []).slice(0, 7).reverse(); chartBars = [];
+      if (!list.length) { ctx.fillStyle = '#94a3b8'; ctx.fillText('No chart data', 16, 82); return; }
       const maxV = Math.max(...list.map(x => Math.max(x.expectedNetSales || 0, x.cashCollected || 0)), 100);
       const slotW = (w - 24) / list.length;
       list.forEach((d, i) => {
-        const cx = 12 + i * slotW + slotW / 2;
-        const bw = Math.min(18, Math.max(7, slotW * 0.28));
-        const nh = ((d.expectedNetSales || 0) / maxV) * 120;
-        const ch = ((d.cashCollected || 0) / maxV) * 120;
-        ctx.fillStyle = '#22d3ee'; ctx.fillRect(cx - bw - 2, 138 - nh, bw, nh);
-        ctx.fillStyle = '#34d399'; ctx.fillRect(cx + 2, 138 - ch, bw, ch);
+        const cx = 12 + i * slotW + slotW / 2, bw = Math.min(18, Math.max(7, slotW * 0.28));
+        const nh = ((d.expectedNetSales || 0) / maxV) * 115, ch = ((d.cashCollected || 0) / maxV) * 115;
+        ctx.fillStyle = '#22d3ee'; ctx.fillRect(cx - bw - 2, 134 - nh, bw, nh);
+        ctx.fillStyle = '#34d399'; ctx.fillRect(cx + 2, 134 - ch, bw, ch);
         ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText((d.date || '').slice(5), cx, 158);
+        ctx.fillText((d.date || '').slice(5), cx, 154);
         chartBars.push({ x: cx - slotW / 2, w: slotW, item: d });
       });
     }
@@ -419,15 +302,9 @@
     function renderSoldMeds() {
       const q = (document.getElementById('soldFilter').value || '').trim().toLowerCase();
       const list = soldMedsCache.filter(m => !q || m.name.toLowerCase().includes(q));
-      const tb = document.getElementById('soldMedsBody');
-      if (!list.length) { tb.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">इस तारीख की कोई दवाई बिक्री नहीं मिली।</td></tr>'; return; }
-      tb.innerHTML = list.map(m => `
-        <tr>
-          <td><strong>${esc(m.name)}</strong></td>
-          <td>${m.strips ? m.strips + ' Strip ' : ''}${m.tablets ? m.tablets + ' Tab' : ''}</td>
-          <td>${inr(m.grossMrp)}</td>
-          <td style="color:var(--emerald); font-weight:700;">${inr(m.netSale10)}</td>
-        </tr>`).join('');
+      document.getElementById('soldMedsBody').innerHTML = list.length
+        ? list.map(m => `<tr><td><strong>${esc(m.name)}</strong></td><td>${m.strips ? m.strips + ' Strip ' : ''}${m.tablets ? m.tablets + ' Tab' : ''}</td><td>${inr(m.grossMrp)}</td><td style="color:var(--emerald);font-weight:700;">${inr(m.netSale10)}</td></tr>`).join('')
+        : '<tr><td colspan="4" style="color:var(--muted);">इस तारीख की कोई दवाई बिक्री नहीं मिली।</td></tr>';
     }
 
     async function loadDashboard() {
@@ -440,32 +317,22 @@
         document.getElementById('sConsult').textContent = inr(d.consultTotal);
         document.getElementById('sAllCash').textContent = inr(d.totalCashCollection);
         document.getElementById('sOnline').textContent = inr(d.onlineTotal);
-        document.getElementById('sPatDue').textContent = `${d.patientCount} | ${inr(d.opdPendingForDate)}`;
-
+        document.getElementById('sPatCount').textContent = d.patientCount;
         soldMedsCache = d.soldMedicines || [];
         document.getElementById('soldCountPill').textContent = `${soldMedsCache.length} items`;
-        renderSoldMeds();
-        drawChart(d.recentCollections || []);
-
-        const box = document.getElementById('datePatientsList');
-        if (!d.patients || !d.patients.length) {
-          box.innerHTML = '<span style="color:var(--muted); font-size:13px;">इस तारीख की कोई पेशेंट एंट्री नहीं है।</span>';
-        } else {
-          box.innerHTML = d.patients.map(p => `
-            <div class="item">
+        renderSoldMeds(); drawChart(d.recentCollections || []);
+        document.getElementById('datePatientsList').innerHTML = (d.patients || []).length
+          ? d.patients.map(p => `<div class="item">
               <div class="row" style="justify-content:space-between;">
                 <strong style="color:var(--cyan);">${esc(p.patientName)} (${esc(p.age || '-')})</strong>
-                <span style="color:var(--emerald); font-weight:700;">Total: ${inr(p.totalPaid)}</span>
+                <span style="color:var(--emerald);font-weight:700;">Total: ${inr(p.totalPaid)}</span>
               </div>
-              <div style="font-size:12px; color:var(--muted); margin-top:2px;">
-                Consult: ${inr(p.consultFee)} (${esc(p.consultMode)} → ${esc(p.consultPaidTo)}) |
-                Med: ${inr(p.medAmount)} (${esc(p.medMode)} → ${esc(p.medPaidTo)})
-                ${p.pendingAmount > 0 ? ` | <strong style="color:var(--amber);">Due: ${inr(p.pendingAmount)}</strong>` : ''}
-              </div>
+              <div style="font-size:12px;color:var(--purple);margin-top:2px;">👨‍⚕️ ${esc(p.doctorName)}</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px;">Consult: ${inr(p.consultFee)} (${esc(p.consultMode)} → ${esc(p.consultPaidTo)}) | Med: ${inr(p.medAmount)} (${esc(p.medMode)} → ${esc(p.medPaidTo)})</div>
               ${p.diagnosis ? `<div style="margin-top:3px;"><strong>Diagnosis:</strong> ${esc(p.diagnosis)}</div>` : ''}
-              ${p.medicinesDosage ? `<div style="margin-top:2px; color:var(--emerald);"><strong>Meds:</strong> ${esc(p.medicinesDosage)}</div>` : ''}
-            </div>`).join('');
-        }
+              ${p.medicinesDosage ? `<div style="margin-top:2px;color:var(--emerald);"><strong>Meds:</strong> ${esc(p.medicinesDosage)}</div>` : ''}
+            </div>`).join('')
+          : '<span style="color:var(--muted);font-size:13px;">इस तारीख की कोई पेशेंट एंट्री नहीं है।</span>';
       } catch (e) { toast('Load Error: ' + e.message); }
     }
 
@@ -474,15 +341,11 @@
       const meds = [];
       document.querySelectorAll('#medRows .med-card').forEach(r => {
         const name = r.querySelector('.m-name').value.trim();
-        if (name) meds.push({
-          name,
-          days: r.querySelector('.m-days').value.trim(),
-          frequency: r.querySelector('.m-freq').value,
-          timing: r.querySelector('.m-time').value
-        });
+        if (name) meds.push({ name, days: r.querySelector('.m-days').value.trim(), frequency: r.querySelector('.m-freq').value, timing: r.querySelector('.m-time').value });
       });
       const entry = {
         date: document.getElementById('reportDate').value,
+        doctorName: document.getElementById('pDoctor').value,
         patientName: document.getElementById('pName').value.trim(),
         mobile: document.getElementById('pMobile').value.trim(),
         age: document.getElementById('pAge').value.trim(),
@@ -494,49 +357,43 @@
         consultPaidTo: document.getElementById('cPaidTo').value,
         medAmount: document.getElementById('mFee').value,
         medMode: document.getElementById('mMode').value,
-        medPaidTo: document.getElementById('mPaidTo').value,
-        pendingAmount: document.getElementById('pPending').value
+        medPaidTo: document.getElementById('mPaidTo').value
       };
       try {
         await apiPost({ action: 'addPatient', entry });
-        toast('पेशेंट रिकॉर्ड सेव हो गया!');
+        toast('पेशेंट सेव & Daily Tally अपडेट हो गया!');
         document.getElementById('patientForm').reset();
         document.getElementById('medRows').innerHTML = '';
-        addMedRow();
-        loadDashboard();
+        addMedRow(); loadDashboard();
       } catch (e) { toast('Save Error: ' + e.message); }
     }
 
     async function loadMonthly() {
-      const m = document.getElementById('reportMonth').value;
       try {
-        const d = await apiGet({ action: 'monthly', month: m });
+        const d = await apiGet({ action: 'monthly', month: document.getElementById('reportMonth').value });
         document.getElementById('mConsult').textContent = inr(d.totalConsult);
-        document.getElementById('mMeds').textContent = inr(d.totalOpdMed + d.sheetMedSales);
+        document.getElementById('mMeds').textContent = inr(Math.max(d.totalOpdMed, d.sheetMedSales));
         document.getElementById('mCash').textContent = inr(d.totalCash);
         document.getElementById('mOnline').textContent = inr(d.totalOnline);
         document.getElementById('mPatients').textContent = d.patientCount;
-        document.getElementById('mPending').textContent = inr(d.totalPending);
+
+        const docs = d.doctors || {};
+        document.getElementById('monthlyDocBody').innerHTML = ['Dr. Gaurav Mahajan', 'Dr. Jasjyot Kaur'].map(k => {
+          const x = docs[k] || { patients:0, consultCash:0, consultOnline:0, medCash:0, medOnline:0, total:0 };
+          return `<tr><td><strong>${esc(k)}</strong></td><td>${x.patients}</td><td>${inr(x.consultCash)}</td><td style="color:var(--cyan);">${inr(x.consultOnline)}</td><td>${inr(x.medCash)}</td><td style="color:var(--cyan);">${inr(x.medOnline)}</td><td style="color:var(--emerald);font-weight:800;">${inr(x.total)}</td></tr>`;
+        }).join('');
 
         const accs = d.accounts || {};
-        document.getElementById('monthlyAccBody').innerHTML = ['HUF', 'Jasjyot Kaur', 'Ajay', 'Other'].map(k => {
-          const a = accs[k] || { consult: 0, med: 0, cash: 0, online: 0, total: 0 };
-          return `<tr>
-            <td><strong>${esc(k)}</strong></td>
-            <td>${inr(a.consult)}</td>
-            <td>${inr(a.med)}</td>
-            <td>${inr(a.cash)}</td>
-            <td style="color:var(--cyan);">${inr(a.online)}</td>
-            <td style="color:var(--emerald); font-weight:800;">${inr(a.total)}</td>
-          </tr>`;
+        document.getElementById('monthlyAccBody').innerHTML = ['Cash', 'Ajay', 'Jasjyot Kaur', 'HUF'].map(k => {
+          const a = accs[k] || { consult:0, med:0, cash:0, online:0, total:0 };
+          return `<tr><td><strong>${esc(k)}</strong></td><td>${inr(a.consult)}</td><td>${inr(a.med)}</td><td>${inr(a.cash)}</td><td style="color:var(--cyan);">${inr(a.online)}</td><td style="color:var(--emerald);font-weight:800;">${inr(a.total)}</td></tr>`;
         }).join('');
       } catch (e) { toast('Monthly Error: ' + e.message); }
     }
 
     async function loadStock() {
       try {
-        const d = await apiGet({ action: 'stock' });
-        stockCache = d;
+        const d = await apiGet({ action: 'stock' }); stockCache = d;
         document.getElementById('stkMrp').textContent = inr(d.totalMrpValue);
         document.getElementById('stkSale10').textContent = inr(d.discountedSaleValue10);
         document.getElementById('stkProfit').textContent = inr(d.estimatedProfitAfter10Disc);
@@ -549,41 +406,40 @@
       if (!stockCache) return;
       const q = (document.getElementById('stockFilter').value || '').trim().toLowerCase();
       const list = (stockCache.items || []).filter(i => !q || i.name.toLowerCase().includes(q));
-      document.getElementById('stockTableBody').innerHTML = list.slice(0, 120).map(i => `
-        <tr>
-          <td><strong>${esc(i.name)}</strong></td>
-          <td>${i.currentStock}</td>
-          <td>${inr(i.mrp)}</td>
-          <td style="color:var(--cyan);">${inr(i.rateAfter10)}</td>
-          <td>${i.purchasePrice > 0 ? inr(i.purchasePrice) : '-'}</td>
-          <td style="color:${i.profitPerStrip === null ? 'var(--muted)' : (i.profitPerStrip >= 0 ? 'var(--emerald)' : 'var(--rose)')}; font-weight:700;">
-            ${i.profitPerStrip === null ? '-' : inr(i.profitPerStrip)}
-          </td>
-        </tr>`).join('');
+      document.getElementById('stockTableBody').innerHTML = list.slice(0, 120).map(i => `<tr>
+        <td><strong>${esc(i.name)}</strong></td><td>${i.currentStock}</td><td>${inr(i.mrp)}</td>
+        <td style="color:var(--cyan);">${inr(i.rateAfter10)}</td><td>${i.purchasePrice > 0 ? inr(i.purchasePrice) : '-'}</td>
+        <td style="color:${i.profitPerStrip === null ? 'var(--muted)' : (i.profitPerStrip >= 0 ? 'var(--emerald)' : 'var(--rose)')};font-weight:700;">${i.profitPerStrip === null ? '-' : inr(i.profitPerStrip)}</td>
+      </tr>`).join('');
     }
 
     async function loadDues() {
       try {
         const d = await apiGet({ action: 'dues' });
-        document.getElementById('dueRec').textContent = inr(d.totalReceivables);
-        document.getElementById('duePay').textContent = inr(d.totalPayables);
-        document.getElementById('receivablesList').innerHTML = (d.patientReceivables || []).length
-          ? d.patientReceivables.map(r => `
-            <div class="item row" style="justify-content:space-between;">
-              <div><strong>${esc(r.patientName)}</strong> (${esc(r.date)})<br><span style="color:var(--amber); font-size:12px;">Due: ${inr(r.pendingAmount)}</span></div>
-              <button class="btn sm" onclick="markPaid(${r.rowIndex})">Mark Paid</button>
+        document.getElementById('dueUnpaid').textContent = inr(d.totalUnpaid);
+        document.getElementById('dueTotalAll').textContent = inr(d.totalBilledAll);
+        document.getElementById('unpaidCount').textContent = `${(d.unpaidBills || []).length} bills`;
+        document.getElementById('unpaidBillsList').innerHTML = (d.unpaidBills || []).length
+          ? d.unpaidBills.map(b => `<div class="item">
+              <div class="row" style="justify-content:space-between;"><strong>${esc(b.mrName)}</strong><span style="color:var(--rose);font-weight:800;">${inr(b.amount)}</span></div>
+              <div style="font-size:12px;color:var(--muted);">Date: ${esc(b.date || '-')} • Bill: ${esc(b.billNo || '-')} • ${esc(b.medicineName || '')}</div>
             </div>`).join('')
-          : '<span style="color:var(--muted); font-size:13px;">कोई बकाया नहीं।</span>';
-        document.getElementById('payablesList').innerHTML = (d.supplierPayables || []).length
-          ? d.supplierPayables.map(s => `
-            <div class="item"><strong>${esc(s.distributor)}</strong> — <span style="color:var(--rose); font-weight:700;">${inr(s.dueAmount)}</span><br><span style="font-size:12px; color:var(--muted);">Bill: ${esc(s.invoiceNo)} • ${esc(s.medicineName)} (${s.daysPending}d)</span></div>`).join('')
-          : '<span style="color:var(--muted); font-size:13px;">कोई डिस्ट्रीब्यूटर बकाया नहीं।</span>';
-      } catch (e) { toast('Dues Error: ' + e.message); }
+          : '<span style="color:var(--muted);font-size:13px;">कोई Unpaid बिल नहीं है।</span>';
+        mrCache = d.mrSummary || [];
+        renderMRList();
+      } catch (e) { toast('MR/Dues Error: ' + e.message); }
     }
 
-    async function markPaid(rowIndex) {
-      try { await apiPost({ action: 'settlePatientDue', rowIndex }); toast('बकाया क्लियर!'); loadDues(); loadDashboard(); }
-      catch (e) { toast('Error: ' + e.message); }
+    function renderMRList() {
+      const q = (document.getElementById('mrFilter').value || '').trim().toLowerCase();
+      const list = mrCache.filter(m => !q || m.mrName.toLowerCase().includes(q) || (m.medicines || []).some(x => x.toLowerCase().includes(q)));
+      document.getElementById('mrSummaryList').innerHTML = list.length
+        ? list.map(m => `<div class="item">
+            <div class="row" style="justify-content:space-between;"><strong style="color:var(--cyan);">${esc(m.mrName)}</strong><span style="color:var(--emerald);font-weight:800;">Total: ${inr(m.totalAmount)}</span></div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Bills: ${m.billCount} • Paid: ${inr(m.paidAmount)} • <span style="color:var(--rose);">Unpaid: ${inr(m.unpaidAmount)}</span></div>
+            <div style="font-size:12px;color:#cbd5e1;margin-top:4px;"><strong>Medicines:</strong> ${esc((m.medicines || []).join(', ') || '-')}</div>
+          </div>`).join('')
+        : '<span style="color:var(--muted);font-size:13px;">कोई MR डेटा नहीं मिला।</span>';
     }
 
     async function searchHistory() {
@@ -591,23 +447,18 @@
       try {
         const d = await apiGet({ action: 'history', q });
         document.getElementById('historyResults').innerHTML = (d.records || []).length
-          ? d.records.map(r => `
-            <div class="item">
-              <strong style="color:var(--cyan);">${esc(r.patientName)}</strong> (${esc(r.date)}) • Age: ${esc(r.age || '-')}<br>
-              <span style="font-size:12px; color:var(--muted);">Consult: ${inr(r.consultFee)} (${esc(r.consultPaidTo)}) | Med: ${inr(r.medAmount)} (${esc(r.medPaidTo)})</span>
+          ? d.records.map(r => `<div class="item">
+              <strong style="color:var(--cyan);">${esc(r.patientName)}</strong> (${esc(r.date)}) • ${esc(r.doctorName)}<br>
+              <span style="font-size:12px;color:var(--muted);">Consult: ${inr(r.consultFee)} (${esc(r.consultPaidTo)}) | Med: ${inr(r.medAmount)} (${esc(r.medPaidTo)})</span>
               ${r.diagnosis ? `<div><strong>Diagnosis:</strong> ${esc(r.diagnosis)}</div>` : ''}
               ${r.medicinesDosage ? `<div style="color:var(--emerald);"><strong>Meds:</strong> ${esc(r.medicinesDosage)}</div>` : ''}
             </div>`).join('')
-          : '<span style="color:var(--muted); font-size:13px;">कोई रिकॉर्ड नहीं मिला।</span>';
+          : '<span style="color:var(--muted);font-size:13px;">कोई रिकॉर्ड नहीं मिला।</span>';
       } catch (e) { toast('Search Error: ' + e.message); }
     }
 
     function refreshAll() { loadDashboard(); loadStock(); loadDues(); }
-
-    setToday();
-    addMedRow();
-    refreshAll();
+    setToday(); addMedRow(); refreshAll();
   </script>
 </body>
 </html>
-
