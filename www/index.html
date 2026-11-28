@@ -749,7 +749,16 @@
       window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
     }
 
-    function printReport() { window.print(); }
+    function printReport() {
+  const isWebView = /wv\)/i.test(navigator.userAgent) || !!window.Capacitor;
+  if (!isWebView) { window.print(); return; }
+  const activeTab = ['daily','monthly','stock','dues'].find(k => !document.getElementById('tab-' + k).classList.contains('hidden')) || 'daily';
+  const dt = document.getElementById('reportDate').value;
+  const ym = document.getElementById('reportMonth').value;
+  const url = `https://createabuzz10-glitch.github.io/clinic-reports-app/www/?tab=${activeTab}&date=${dt}&month=${ym}&autoprint=1`;
+  window.open(url, '_system');
+}
+
 
     async function loadStock() {
       try {
@@ -856,6 +865,15 @@
     applyTheme(localStorage.getItem('clinic_theme') || 'dark-blue');
     updateOnlineStatus();
     setToday(); addMedRow(); refreshAll();
+        const _p = new URLSearchParams(location.search);
+    if (_p.get('date')) document.getElementById('reportDate').value = _p.get('date');
+    if (_p.get('month')) document.getElementById('reportMonth').value = _p.get('month');
+    if (_p.get('tab')) switchTab(_p.get('tab'));
+    if (_p.get('autoprint') === '1') {
+      toast('PDF ready ho raha hai...');
+      setTimeout(() => window.print(), 2500);
+    }
+    
   </script>
 </body>
 </html>
